@@ -1,0 +1,60 @@
+{
+    "name": "omatech/mapi",
+    "description": "",
+    "keywords": [
+        "omatech",
+        "mapi"
+    ],
+    "homepage": "https://github.com/omatech/mapi",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Omatech",
+            "email": "devel@omatech.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^8.0",
+        "league/tactician": "^1.1",
+        "omatech/mcore": "dev-edge"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "roave/security-advisories": "dev-latest",
+        "infection/infection": "^0.24.0",
+        "nunomaduro/phpinsights": "^2.0"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/christian-omatech/mcore.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Omatech\\Mapi\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "infection": "vendor/bin/infection -j$(nproc) --coverage=build --skip-initial-tests",
+        "analyse": "vendor/bin/phpinsights analyse --verbose --config-path=rules.php --no-interaction --fix src"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Omatech\\Mapi\\MapiServiceProvider"
+            ]
+        }
+    }
+}
