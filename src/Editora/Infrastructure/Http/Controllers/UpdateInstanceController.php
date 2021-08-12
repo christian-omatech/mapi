@@ -3,8 +3,8 @@
 namespace Omatech\Mapi\Editora\Infrastructure\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Omatech\Mcore\Editora\Application\UpdateInstance\UpdateInstanceCommand;
 use Omatech\Mapi\Shared\Infrastructure\Http\Controllers\Controller;
+use Omatech\Mcore\Editora\Application\UpdateInstance\UpdateInstanceCommand;
 use Symfony\Component\HttpFoundation\Response;
 
 final class UpdateInstanceController extends Controller

@@ -12,5 +12,6 @@ final class EditoraServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('jsonRequest', JsonRequest::class);
 
         $this->loadRoutesFrom(__DIR__.'/Infrastructure/Routes/api.php');
+        $this->loadMigrationsFrom(__DIR__.'/Infrastructure/Persistence/Eloquent/Migrations');
     }
 }

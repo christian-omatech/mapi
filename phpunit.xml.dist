@@ -27,5 +27,9 @@
         <junit outputFile="build/report.junit.xml"/>
     </logging>
     <php>
+        <env name="DB_SOCKET" value="/var/run/mysqld/mysqld.sock" />
+        <env name="DB_DATABASE" value="mapi" />
+        <env name="DB_USERNAME" value="root" />
+        <env name="DB_PASSWORD" value="mapi" />
     </php>
 </phpunit>

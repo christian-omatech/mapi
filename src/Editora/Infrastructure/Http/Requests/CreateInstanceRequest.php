@@ -11,7 +11,7 @@ final class CreateInstanceRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,9 +21,16 @@ final class CreateInstanceRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
+            'class_key' => 'required|string',
+            'metadata' => 'required|array',
+            'metadata.key' => 'required|string',
+            'metadata.publication' => 'required|array',
+            'metadata.publication.start_publishing_date' => 'required|date_format:Y-m-d H:i:s',
+            'attributes' => 'array',
+            'relations' => 'array',
         ];
     }
 }

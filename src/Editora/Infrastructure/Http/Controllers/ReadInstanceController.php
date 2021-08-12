@@ -3,8 +3,8 @@
 namespace Omatech\Mapi\Editora\Infrastructure\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Omatech\Mcore\Editora\Application\ReadInstance\ReadInstanceCommand;
 use Omatech\Mapi\Shared\Infrastructure\Http\Controllers\Controller;
+use Omatech\Mcore\Editora\Application\ReadInstance\ReadInstanceCommand;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ReadInstanceController extends Controller

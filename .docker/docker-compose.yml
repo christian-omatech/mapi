@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  php:
+    container_name: mapi-php
+    build:
+      context: "."
+      dockerfile: "php/Dockerfile"
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - mariadb-socket:/var/run/mysqld
+      - ../:/app
+  mariadb:
+    container_name: mapi-mariadb
+    build:
+      context: "."
+      dockerfile: "mariadb/Dockerfile"
+    healthcheck:
+      test: "/usr/bin/mysql -uroot -pmapi -e 'SHOW DATABASES;'"
+      timeout: 10s
+      retries: 10
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb:/var/lib/mysql
+      - mariadb-socket:/var/run/mysqld
+volumes:
+  mariadb-socket:
+  mariadb:
