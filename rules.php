@@ -49,5 +49,8 @@ return [
                 'destruct',
             ]
         ]
+    ],
+    'exclude' => [
+        '*0000_00_00*.php'
     ]
 ];
