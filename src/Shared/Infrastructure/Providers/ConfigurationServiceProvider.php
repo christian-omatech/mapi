@@ -9,8 +9,8 @@ final class ConfigurationServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            dirname(__DIR__, 4).'/config/tactician.php',
-            'tactician'
+            dirname(__DIR__, 4).'/config/mage.php',
+            'mage'
         );
     }
 }

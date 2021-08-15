@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class DeleteInstanceController extends Controller
 {
-    public function __invoke(): JsonResponse
+    public function __invoke(int $id): JsonResponse
     {
-        $this->commandBus->handle(new DeleteInstanceCommand(1));
+        $this->commandBus->handle(new DeleteInstanceCommand($id));
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }

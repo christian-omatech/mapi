@@ -18,7 +18,7 @@ class CreateValuesTable extends Migration
             $table->unsignedBigInteger('instance_id');
             $table->string('attribute_key')->index();
             $table->string('language')->index();
-            $table->text('value');
+            $table->text('value')->nullable();
             $table->json('extra_data')->nullable();
             $table->timestamps();
             $table->softDeletes();

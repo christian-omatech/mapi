@@ -12,11 +12,12 @@ final class CreateInstanceController extends Controller
 {
     public function __invoke(CreateInstanceRequest $request): JsonResponse
     {
+        $data = $request->validated();
         $this->commandBus->handle(new CreateInstanceCommand([
-            'classKey' => $request->get('class_key'),
-            'metadata' => $request->get('metadata'),
-            'attributes' => $request->get('attributes', []),
-            'relations' => $request->get('relations', []),
+            'classKey' => $data['class_key'],
+            'metadata' => $data['metadata'],
+            'attributes' => $data['attributes'] ?? [],
+            'relations' => $data['relations'] ?? [],
         ]));
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }

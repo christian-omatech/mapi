@@ -11,11 +11,9 @@ class Bus extends CommandBus
     public const COMMAND_BUS = 'command_middleware';
 
     private array $middleware;
-    private array $config;
 
     public function __construct(string $type)
     {
-        $this->config = config('tactician');
         $this->loadConfigMiddleware($type);
         $this->addCommandHandlerMiddleware();
         parent::__construct($this->middleware);
@@ -23,7 +21,7 @@ class Bus extends CommandBus
 
     private function loadConfigMiddleware(string $type): void
     {
-        foreach ($this->config[$type] as $middleware) {
+        foreach (config('mage.commandbus')[$type] as $middleware) {
             $this->middleware[] = app($middleware);
         }
     }
@@ -31,9 +29,9 @@ class Bus extends CommandBus
     private function addCommandHandlerMiddleware(): void
     {
         $this->middleware[] = new CommandHandlerMiddleware(
-            app($this->config['command_name_extractor']),
-            app($this->config['handler_locator']),
-            app($this->config['method_name_inflector'])
+            app(config('mage.commandbus')['command_name_extractor']),
+            app(config('mage.commandbus')['handler_locator']),
+            app(config('mage.commandbus')['method_name_inflector'])
         );
     }
 }
