@@ -29,11 +29,11 @@ final class UpdateInstanceTest extends DatabaseTestCase
         }
 
         $instanceData = [
-            'class_key' => $instance->class_key,
+            'classKey' => $instance->class_key,
             'metadata' => [
                 'key' => $instance->key,
                 'publication' => [
-                    'start_publishing_date' => $instance->start_publishing_date
+                    'startPublishingDate' => $instance->start_publishing_date
                 ]
             ],
             'attributes' => $attributes

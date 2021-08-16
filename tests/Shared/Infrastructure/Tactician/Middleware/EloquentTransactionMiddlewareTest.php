@@ -3,15 +3,12 @@
 namespace Tests\Shared\Infrastructure\Tactician\Middleware;
 
 use Exception;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Shared\Infrastructure\Tactician\Middleware\EloquentTransactionMiddleware;
-use Tests\TestCase;
+use Tests\DatabaseTestCase;
 
-class EloquentTransactionMiddlewareTest extends TestCase
+class EloquentTransactionMiddlewareTest extends DatabaseTestCase
 {
-    use RefreshDatabase;
-
     /**
      * @test
      */

@@ -6,7 +6,9 @@ use Omatech\Mapi\Editora\Infrastructure\Http\Controllers\DeleteInstanceControlle
 use Omatech\Mapi\Editora\Infrastructure\Http\Controllers\ReadInstanceController;
 use Omatech\Mapi\Editora\Infrastructure\Http\Controllers\UpdateInstanceController;
 
-Route::middleware('jsonRequest')->post('/', CreateInstanceController::class);
-Route::get('{id}', ReadInstanceController::class);
-Route::put('{id}', UpdateInstanceController::class);
-Route::delete('{id}', DeleteInstanceController::class);
+Route::middleware('jsonRequest')->group(function ($route) {
+    $route->post('/', CreateInstanceController::class);
+    $route->get('{id}', ReadInstanceController::class)->where('id', '[0-9]+');
+    $route->put('{id}', UpdateInstanceController::class)->where('id', '[0-9]+');
+    $route->delete('{id}', DeleteInstanceController::class)->where('id', '[0-9]+');
+});

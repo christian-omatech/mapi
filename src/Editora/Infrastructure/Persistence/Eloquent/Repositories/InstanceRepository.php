@@ -90,7 +90,7 @@ final class InstanceRepository implements InstanceRepositoryInterface
     {
         $attributes = [];
         foreach ($instanceDAO->values()->get() as $value) {
-            $attributes[$value->key][] = [
+            $attributes[$value->attribute_key]['values'][] = [
                 'id' => $value->id,
                 'language' => $value->language,
                 'value' => $value->value,

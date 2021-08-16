@@ -4,7 +4,7 @@ namespace Omatech\Mapi\Editora\Infrastructure\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class UpdateInstanceRequest extends FormRequest
+final class ReadInstanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,20 +24,14 @@ final class UpdateInstanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'metadata' => 'required|array',
-            'metadata.id' => 'required|integer',
-            'metadata.key' => 'required|string',
-            'metadata.publication' => 'required|array',
-            'metadata.publication.startPublishingDate' => 'required|date_format:Y-m-d H:i:s',
-            'attributes' => 'array',
-            'relations' => 'array',
+            'id' => 'required|integer',
         ];
     }
 
     protected function prepareForValidation(): void
     {
-        $input = $this->input();
-        $input['metadata']['id'] = (int) $this->route()->parameter('id');
-        $this->merge($input);
+        $this->merge([
+            'id' => (int) $this->route()->parameter('id'),
+        ]);
     }
 }

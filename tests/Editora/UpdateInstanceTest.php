@@ -7,39 +7,20 @@ use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceRepositoryInterface;
 use Omatech\Mcore\Editora\Domain\Instance\Instance;
 use Tests\TestCase;
 
-final class CreateInstanceTest extends TestCase
+final class UpdateInstanceTest extends TestCase
 {
     /** @test */
-    public function failedValidationOnCreateInstance(): void
-    {
-        $response = $this->postJson('/', []);
-        $response->assertJsonStructure([
-            'status',
-            'error' => [
-                'classKey',
-                'metadata',
-                'metadata.key',
-                'metadata.publication',
-                'metadata.publication.startPublishingDate'
-            ],
-            'message'
-        ]);
-        $response->assertStatus(422);
-    }
-
-    /** @test */
-    public function createInstanceSuccessfully(): void
+    public function updateInstanceSuccessfully(): void
     {
         $instance = $this->mock(Instance::class, function (MockInterface $mock) {
             $mock->shouldReceive('fill')->once()->andReturn(null);
         });
         $this->mock(InstanceRepositoryInterface::class, function (MockInterface $mock) use ($instance) {
-            $mock->shouldReceive('build')->once()->andReturn($instance);
+            $mock->shouldReceive('find')->once()->andReturn($instance);
             $mock->shouldReceive('save')->once()->with($instance)->andReturn(null);
         });
 
-        $response = $this->postJson('/', [
-            'classKey' => 'test',
+        $response = $this->putJson('123', [
             'metadata' => [
                 'key' => 'test',
                 'publication' => [

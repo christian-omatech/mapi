@@ -24,11 +24,11 @@ final class CreateInstanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'class_key' => 'required|string',
+            'classKey' => 'required|string',
             'metadata' => 'required|array',
             'metadata.key' => 'required|string',
             'metadata.publication' => 'required|array',
-            'metadata.publication.start_publishing_date' => 'required|date_format:Y-m-d H:i:s',
+            'metadata.publication.startPublishingDate' => 'required|date_format:Y-m-d H:i:s',
             'attributes' => 'array',
             'relations' => 'array',
         ];

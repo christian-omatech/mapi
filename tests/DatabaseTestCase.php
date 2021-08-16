@@ -3,9 +3,12 @@
 namespace Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 abstract class DatabaseTestCase extends TestCase
 {
+    use RefreshDatabase;
+
     protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set(

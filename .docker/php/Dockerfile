@@ -3,7 +3,7 @@ COPY php/zzz-fpm.conf /usr/local/etc/php-fpm.d/zzz-fpm.conf
 
 ARG UID
 ARG GID
-RUN echo $UID $GID
+
 RUN apk --update --no-cache add \
     curl \
     git
