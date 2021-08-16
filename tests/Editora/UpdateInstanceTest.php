@@ -21,12 +21,8 @@ final class UpdateInstanceTest extends TestCase
         });
 
         $response = $this->putJson('123', [
-            'metadata' => [
-                'key' => 'test',
-                'publication' => [
-                    'startPublishingDate' => '1989-03-08 09:00:00'
-                ]
-            ],
+            'key' => 'test',
+            'startPublishingDate' => '1989-03-08 09:00:00',
             'attributes' => [
                 'all-languages-attribute' => [
                     'values' => [

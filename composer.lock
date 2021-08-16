@@ -1550,12 +1550,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/christian-omatech/mcore.git",
-                "reference": "3a609266706ea9653df54306b52789af77d4da76"
+                "reference": "041a6a485e8ad15d03893b145a5953c3aa5f58d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/3a609266706ea9653df54306b52789af77d4da76",
-                "reference": "3a609266706ea9653df54306b52789af77d4da76",
+                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/041a6a485e8ad15d03893b145a5953c3aa5f58d4",
+                "reference": "041a6a485e8ad15d03893b145a5953c3aa5f58d4",
                 "shasum": ""
             },
             "require": {
@@ -1589,7 +1589,7 @@
                     "vendor/bin/phpunit"
                 ],
                 "infection": [
-                    "vendor/bin/infection -j$(nproc) --coverage=build --skip-initial-tests --logger-github"
+                    "vendor/bin/infection --coverage=build --skip-initial-tests --logger-github"
                 ],
                 "test": [
                     "@phpunit",
@@ -1603,7 +1603,7 @@
                 "source": "https://github.com/christian-omatech/mcore/tree/edge",
                 "issues": "https://github.com/christian-omatech/mcore/issues"
             },
-            "time": "2021-08-16T10:16:40+00:00"
+            "time": "2021-08-16T11:52:09+00:00"
         },
         {
             "name": "opis/closure",

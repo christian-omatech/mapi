@@ -17,10 +17,8 @@ final class CreateInstanceTest extends TestCase
             'status',
             'error' => [
                 'classKey',
-                'metadata',
-                'metadata.key',
-                'metadata.publication',
-                'metadata.publication.startPublishingDate'
+                'key',
+                'startPublishingDate'
             ],
             'message'
         ]);
@@ -40,12 +38,8 @@ final class CreateInstanceTest extends TestCase
 
         $response = $this->postJson('/', [
             'classKey' => 'test',
-            'metadata' => [
-                'key' => 'test',
-                'publication' => [
-                    'startPublishingDate' => '1989-03-08 09:00:00'
-                ]
-            ],
+            'key' => 'test',
+            'startPublishingDate' => '1989-03-08 09:00:00',
             'attributes' => [
                 'all-languages-attribute' => [
                     'values' => [

@@ -11,12 +11,8 @@ final class CreateInstanceTest extends DatabaseTestCase
     {
         $response = $this->postJson('/', [
             'classKey' => 'ClassOne',
-            'metadata' => [
-                'key' => 'instance-test',
-                'publication' => [
-                    'startPublishingDate' => '1989-03-08 09:00:00'
-                ]
-            ],
+            'key' => 'instance-test',
+            'startPublishingDate' => '1989-03-08 09:00:00',
             'attributes' => [
                 'all-languages-attribute' => [
                     'values' => [

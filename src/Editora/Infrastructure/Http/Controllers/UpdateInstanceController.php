@@ -12,9 +12,7 @@ final class UpdateInstanceController extends Controller
 {
     public function __invoke(UpdateInstanceRequest $request): JsonResponse
     {
-        $this->commandBus->handle(new UpdateInstanceCommand(
-            $request->validated()
-        ));
+        $this->commandBus->handle(new UpdateInstanceCommand($request->validated()));
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -44,7 +44,7 @@
     },
     "scripts": {
         "phpunit": "vendor/bin/phpunit --coverage-text",
-        "infection": "vendor/bin/infection -j$(nproc) --coverage=build --skip-initial-tests --logger-github",
+        "infection": "vendor/bin/infection --coverage=build --skip-initial-tests --logger-github",
         "test": [
             "@phpunit",
             "@infection"

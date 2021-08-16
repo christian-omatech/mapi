@@ -12,8 +12,7 @@ final class ReadInstanceController extends Controller
 {
     public function __invoke(ReadInstanceRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $instance = $this->queryBus->handle(new ReadInstanceCommand($data['id']));
+        $instance = $this->queryBus->handle(new ReadInstanceCommand($request->validated()['id']));
         return new JsonResponse($instance, Response::HTTP_OK);
     }
 }

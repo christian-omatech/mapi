@@ -25,10 +25,9 @@ final class CreateInstanceRequest extends FormRequest
     {
         return [
             'classKey' => 'required|string',
-            'metadata' => 'required|array',
-            'metadata.key' => 'required|string',
-            'metadata.publication' => 'required|array',
-            'metadata.publication.startPublishingDate' => 'required|date_format:Y-m-d H:i:s',
+            'key' => 'required|string',
+            'startPublishingDate' => 'required|date_format:Y-m-d H:i:s',
+            'endPublishingDate' => 'nullable|date_format:Y-m-d H:i:s',
             'attributes' => 'array',
             'relations' => 'array',
         ];
