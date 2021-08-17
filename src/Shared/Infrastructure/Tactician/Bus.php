@@ -4,6 +4,7 @@ namespace Omatech\Mapi\Shared\Infrastructure\Tactician;
 
 use League\Tactician\CommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
+/** @infection-ignore-all */
 
 class Bus extends CommandBus
 {

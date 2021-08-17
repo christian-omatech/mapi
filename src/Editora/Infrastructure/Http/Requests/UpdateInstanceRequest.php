@@ -26,6 +26,7 @@ final class UpdateInstanceRequest extends FormRequest
         return [
             'id' => 'required|integer',
             'key' => 'required|string',
+            'status' => 'required|string',
             'startPublishingDate' => 'required|date_format:Y-m-d H:i:s',
             'endPublishingDate' => 'nullable|date_format:Y-m-d H:i:s',
             'attributes' => 'array',
@@ -36,7 +37,7 @@ final class UpdateInstanceRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id' => (int) $this->route()->parameter('id')
+            'id' => (int) $this->route()->parameter('id'),
         ]);
     }
 }

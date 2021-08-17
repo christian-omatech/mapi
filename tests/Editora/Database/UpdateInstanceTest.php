@@ -5,12 +5,14 @@ namespace Tests\Editora\Database;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
+use Omatech\Mcore\Editora\Domain\Instance\Publication;
+use Omatech\Mcore\Editora\Domain\Instance\PublicationStatus;
 use Tests\DatabaseTestCase;
 
 final class UpdateInstanceTest extends DatabaseTestCase
 {
     /** @test */
-    public function updateInstance(): void
+    public function updateInstanceSuccessfully(): void
     {
         $instance = InstanceDAO::factory()->has(
             ValueDAO::factory()->count(2)->state(new Sequence(
@@ -31,6 +33,7 @@ final class UpdateInstanceTest extends DatabaseTestCase
         $instanceData = [
             'key' => $instance->key,
             'startPublishingDate' => $instance->start_publishing_date,
+            'status' => PublicationStatus::PUBLISHED,
             'attributes' => $attributes
         ];
 
@@ -38,10 +41,11 @@ final class UpdateInstanceTest extends DatabaseTestCase
         $response->assertStatus(204);
 
         $this->assertDatabaseHas('mage_instances', [
+            'id' => $instance->id,
             'uuid' => $instance->uuid,
             'class_key' => $instance->class_key,
             'key' => $instance->key,
-            'status' => $instance->status,
+            'status' => PublicationStatus::PUBLISHED,
             'start_publishing_date' => $instance->start_publishing_date,
             'end_publishing_date' => $instance->end_publishing_date,
         ]);

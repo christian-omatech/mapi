@@ -1461,16 +1461,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v3.2.2",
+            "version": "v3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "967cfc4f9a1acd5f1058d76715a424c53343c20c"
+                "reference": "5c36cc1ba9bb6abb8a9e425cf054e0c3fd5b9822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/967cfc4f9a1acd5f1058d76715a424c53343c20c",
-                "reference": "967cfc4f9a1acd5f1058d76715a424c53343c20c",
+                "url": "https://api.github.com/repos/nette/utils/zipball/5c36cc1ba9bb6abb8a9e425cf054e0c3fd5b9822",
+                "reference": "5c36cc1ba9bb6abb8a9e425cf054e0c3fd5b9822",
                 "shasum": ""
             },
             "require": {
@@ -1540,9 +1540,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v3.2.2"
+                "source": "https://github.com/nette/utils/tree/v3.2.3"
             },
-            "time": "2021-03-03T22:53:25+00:00"
+            "time": "2021-08-16T21:05:00+00:00"
         },
         {
             "name": "omatech/mcore",
@@ -1550,12 +1550,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/christian-omatech/mcore.git",
-                "reference": "041a6a485e8ad15d03893b145a5953c3aa5f58d4"
+                "reference": "b76a491016e1bce796d1331ef679837eb5d19f2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/041a6a485e8ad15d03893b145a5953c3aa5f58d4",
-                "reference": "041a6a485e8ad15d03893b145a5953c3aa5f58d4",
+                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/b76a491016e1bce796d1331ef679837eb5d19f2d",
+                "reference": "b76a491016e1bce796d1331ef679837eb5d19f2d",
                 "shasum": ""
             },
             "require": {
@@ -1589,7 +1589,7 @@
                     "vendor/bin/phpunit"
                 ],
                 "infection": [
-                    "vendor/bin/infection --coverage=build --skip-initial-tests --logger-github"
+                    "vendor/bin/infection --coverage=build --skip-initial-tests"
                 ],
                 "test": [
                     "@phpunit",
@@ -1603,7 +1603,7 @@
                 "source": "https://github.com/christian-omatech/mcore/tree/edge",
                 "issues": "https://github.com/christian-omatech/mcore/issues"
             },
-            "time": "2021-08-16T11:52:09+00:00"
+            "time": "2021-08-17T09:57:35+00:00"
         },
         {
             "name": "opis/closure",

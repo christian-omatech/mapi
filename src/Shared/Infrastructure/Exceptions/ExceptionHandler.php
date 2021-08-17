@@ -5,26 +5,28 @@ namespace Omatech\Mapi\Shared\Infrastructure\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Omatech\Mcore\Editora\Domain\Instance\Exceptions\InstanceExistsException;
 
 final class ExceptionHandler extends Handler
 {
     public function register()
     {
-        $this->renderable(function (ValidationException $exception) {
-            return new JsonResponse([
-                'status' => $exception->status,
-                'error' => $exception->errors(),
-                'message' => $exception->getMessage(),
-            ], $exception->status);
-        });
+        if (request()->wantsJson()) {
+            $this->renderable(function (ValidationException $exception) {
+                return new JsonResponse([
+                    'status' => $exception->status,
+                    'error' => $exception->errors(),
+                    'message' => $exception->getMessage(),
+                ], $exception->status);
+            });
+        }
 
-        $this->renderable(function (AccessDeniedHttpException $exception) {
+        $this->renderable(function (InstanceExistsException $exception) {
             return new JsonResponse([
-                'status' => 403,
+                'status' => 422,
                 'error' => '',
                 'message' => $exception->getMessage(),
-            ], 403);
+            ], 422);
         });
     }
 }

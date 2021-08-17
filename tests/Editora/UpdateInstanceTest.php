@@ -23,6 +23,7 @@ final class UpdateInstanceTest extends TestCase
         $response = $this->putJson('123', [
             'key' => 'test',
             'startPublishingDate' => '1989-03-08 09:00:00',
+            'status' => 'pending',
             'attributes' => [
                 'all-languages-attribute' => [
                     'values' => [

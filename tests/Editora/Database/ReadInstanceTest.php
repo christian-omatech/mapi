@@ -17,7 +17,10 @@ final class ReadInstanceTest extends DatabaseTestCase
                 ['language' => 'es'],
                 ['language' => 'en'],
             )), 'values'
-        )->create();
+        )->state([
+            'status' => 'in-revision',
+            'end_publishing_date' => '2021-08-16 22:00:00'
+        ])->create();
 
         $values = [];
         foreach($instance->values as $value) {

@@ -28,6 +28,7 @@ final class InstanceRepository implements InstanceRepositoryInterface
             ->setClassName($classKey)
             ->build();
     }
+
     public function find(int $id): ?Instance
     {
         $model = InstanceDAO::find($id);
@@ -38,34 +39,42 @@ final class InstanceRepository implements InstanceRepositoryInterface
         $instance->fill($this->fromDB($model));
         return $instance;
     }
+
+    public function exists(string $key): bool
+    {
+        return InstanceDAO::where('key', $key)->exists();
+    }
+
     public function classKey(int $id): ?string
     {
     }
+
     public function delete(Instance $instance): void
     {
-        InstanceDAO::find($instance->toArray()['metadata']['id'])
-            ->forceDelete();
+        InstanceDAO::find($instance->id())->forceDelete();
     }
 
     public function save(Instance $instance): void
     {
         $model = InstanceDAO::updateOrCreate([
-            'id' => $instance->toArray()['metadata']['id'],
+            'id' => $instance->id(),
         ], $this->toDB($instance));
-
         $model->values()->saveMany(
-            $this->parseAttributes($instance->toArray()['attributes'])
+            $this->parseAttributes($instance->attributes())
         );
+        $instance->fill($this->fromDB($model));
     }
 
     private function toDB(Instance $instance): array
     {
-        $data = $instance->toArray();
         return [
-            'class_key' => $data['class']['key'],
-            'key' => $data['metadata']['key'],
-            'status' => $data['metadata']['publication']['status'],
-            'start_publishing_date' => $data['metadata']['publication']['startPublishingDate'],
+            'class_key' => $instance->data()['classKey'],
+            'key' => $instance->data()['key'],
+            'status' => $instance->data()['status'],
+            'start_publishing_date' => $instance->data()['startPublishingDate']
+                ->format('Y-m-d H:i:s'),
+            'end_publishing_date' => $instance->data()['endPublishingDate']
+                ?->format('Y-m-d H:i:s'),
         ];
     }
 
@@ -76,7 +85,7 @@ final class InstanceRepository implements InstanceRepositoryInterface
             foreach ($attribute['values'] as $value) {
                 $parsedAttributes[] = ValueDAO::firstOrNew([
                     'id' => $value['id'],
-                ], [
+                ])->fill([
                     'attribute_key' => $attribute['key'],
                     'value' => $value['value'],
                     'language' => $value['language'],
