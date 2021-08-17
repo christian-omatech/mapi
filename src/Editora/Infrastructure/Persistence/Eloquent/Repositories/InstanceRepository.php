@@ -2,31 +2,24 @@
 
 namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories;
 
-use Illuminate\Support\Str;
-use Omatech\Mapi\Editora\Infrastructure\Instance\StructureLoaderInterface;
+use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\InstanceBuilder;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceRepositoryInterface;
 use Omatech\Mcore\Editora\Domain\Instance\Instance;
-use Omatech\Mcore\Editora\Domain\Instance\InstanceBuilder;
 
 final class InstanceRepository implements InstanceRepositoryInterface
 {
-    private StructureLoaderInterface $structureLoader;
+    private InstanceBuilder $instanceBuilder;
 
-    public function __construct(StructureLoaderInterface $structureLoader)
+    public function __construct(InstanceBuilder $instanceBuilder)
     {
-        $this->structureLoader = $structureLoader;
+        $this->instanceBuilder = $instanceBuilder;
     }
 
     public function build(string $classKey): Instance
     {
-        $classKey = Str::ucfirst(Str::camel($classKey));
-        return (new InstanceBuilder())
-            ->setLanguages(config('mage.editora.languages'))
-            ->setStructure($this->structureLoader->load($classKey))
-            ->setClassName($classKey)
-            ->build();
+        return $this->instanceBuilder->build($classKey);
     }
 
     public function find(int $id): ?Instance

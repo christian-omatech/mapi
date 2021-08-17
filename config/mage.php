@@ -2,10 +2,9 @@
 
 use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
 use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
-use Omatech\Mapi\Editora\Infrastructure\Instance\YamlStructureLoader;
+use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Loaders\YamlStructureLoader;
 use Omatech\Mapi\Shared\Infrastructure\Tactician\HandlerLocator;
 use Omatech\Mapi\Shared\Infrastructure\Tactician\Middleware\EloquentTransactionMiddleware;
-use Omatech\Mapi\Shared\Infrastructure\Tactician\Middleware\LoggerMiddleware;
 
 return [
 

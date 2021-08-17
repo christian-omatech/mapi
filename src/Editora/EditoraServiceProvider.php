@@ -3,7 +3,7 @@
 namespace Omatech\Mapi\Editora;
 
 use Illuminate\Support\ServiceProvider;
-use Omatech\Mapi\Editora\Infrastructure\Instance\StructureLoaderInterface;
+use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Contracts\StructureLoaderInterface;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\InstanceRepository;
 use Omatech\Mapi\Shared\Infrastructure\Http\Middleware\JsonRequest;
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceRepositoryInterface;

@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Omatech\Mapi\Editora\Infrastructure\Instance;
+namespace Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Loaders;
 
+use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Contracts\StructureLoaderInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlStructureLoader implements StructureLoaderInterface

@@ -1,7 +1,8 @@
 <?php
 namespace Tests\Editora\Repositories;
 
-use Omatech\Mapi\Editora\Infrastructure\Instance\StructureLoaderInterface;
+use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Contracts\StructureLoaderInterface;
+use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\InstanceBuilder;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\InstanceRepository;
 use Tests\DatabaseTestCase;
 
@@ -17,7 +18,7 @@ final class CreateInstanceTest extends DatabaseTestCase
             ]
         ])->times(2);
 
-        $instanceRepository = new InstanceRepository($structureLoader);
+        $instanceRepository = new InstanceRepository(new InstanceBuilder($structureLoader));
         $instance = $instanceRepository->build('classFive');
         $instance2 = $instanceRepository->build('classFive');
 
