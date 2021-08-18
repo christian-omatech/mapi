@@ -8,10 +8,12 @@ use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
 class ValueDAOFactory extends Factory
 {
     protected $model = ValueDAO::class;
+    
     public function definition(): array
     {
         return [
             'attribute_key' => 'all-languages-attribute',
+            'parent_id' => null,
             'language' => 'es',
             'value' => 'test',
             'extra_data' => json_encode([], JSON_THROW_ON_ERROR),

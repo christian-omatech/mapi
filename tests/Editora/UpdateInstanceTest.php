@@ -13,7 +13,7 @@ final class UpdateInstanceTest extends TestCase
     public function updateInstanceSuccessfully(): void
     {
         $instance = $this->mock(Instance::class, function (MockInterface $mock) {
-            $mock->shouldReceive('fill')->once()->andReturn(null);
+            $mock->shouldReceive('fill')->once()->andReturn($mock);
         });
         $this->mock(InstanceRepositoryInterface::class, function (MockInterface $mock) use ($instance) {
             $mock->shouldReceive('find')->once()->andReturn($instance);

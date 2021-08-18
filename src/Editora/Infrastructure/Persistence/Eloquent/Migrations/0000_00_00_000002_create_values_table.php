@@ -15,18 +15,19 @@ class CreateValuesTable extends Migration
     {
         Schema::create('mage_values', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('instance_id');
-            $table->string('attribute_key')->index();
+            $table->unsignedBigInteger('attribute_id');
             $table->string('language')->index();
             $table->text('value')->nullable();
             $table->json('extra_data')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('instance_id')
+            $table->foreign('attribute_id')
                 ->references('id')
-                ->on('mage_instances')
+                ->on('mage_attributes')
                 ->onDelete('cascade');
+
+            $table->unique(['attribute_id', 'language']);
         });
     }
 

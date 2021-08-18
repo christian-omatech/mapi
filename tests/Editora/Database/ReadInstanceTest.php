@@ -2,50 +2,51 @@
 
 namespace Tests\Editora\Database;
 
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Foundation\Testing\WithFaker;
+use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
 use Tests\DatabaseTestCase;
 
 final class ReadInstanceTest extends DatabaseTestCase
 {
+    use WithFaker;
+
     /** @test */
     public function readInstance(): void
     {
-        $instance = InstanceDAO::factory()->has(
-            ValueDAO::factory()->count(2)->state(new Sequence(
-                ['language' => 'es'],
-                ['language' => 'en'],
-            )), 'values'
-        )->state([
-            'status' => 'in-revision',
-            'end_publishing_date' => '2021-08-16 22:00:00'
-        ])->create();
+        $instance = InstanceDAO::create([
+            'uuid' => $this->faker->uuid(),
+            'class_key' => 'class-one',
+            'key' => 'instance-test2',
+            'status' => 'pending',
+            'start_publishing_date' => '1989-03-08 09:00:00',
+            'end_publishing_date' => null,
+        ]);
 
-        $values = [];
-        foreach($instance->values as $value) {
-            $values[$value->attribute_key][] = [
-                'id' => $value->id,
-                'language' => $value->language,
-                'value' => $value->value,
-                'rules' => [],
-                'configuration' => []
-            ];
-        }
+        $attribute = AttributeDAO::create([
+            'instance_id' => $instance->id,
+            'parent_id' => null,
+            'key' => 'all-languages-attribute',
+        ]);
 
-        $attributes = [];
-        foreach($values as $attributeKey => $values) {
-            $attributes[] = [
-                'key' => $attributeKey,
-                'type' => 'string',
-                'values' => $values,
-                'attributes' => []
-            ];
-        }
+        $valuees = ValueDAO::create([
+            'attribute_id' => $attribute->id,
+            'language' => 'es',
+            'value' => 'test',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
+        $valueen = ValueDAO::create([
+            'attribute_id' => $attribute->id,
+            'language' => 'en',
+            'value' => 'test',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
 
         $response = $this->getJson($instance->id);
+
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJson([
             'class' => [
                 'key' => 'class-one',
                 'relations' => []
@@ -59,7 +60,22 @@ final class ReadInstanceTest extends DatabaseTestCase
                     'endPublishingDate' => $instance->end_publishing_date,
                 ]
             ],
-            'attributes' => $attributes,
+            'attributes' => [
+                [
+                    'key' => 'all-languages-attribute',
+                    'values' => [
+                        [
+                            'id' => $valuees->id,
+                            'language' => 'es',
+                            'value' => 'test',
+                        ], [
+                            'id' => $valueen->id,
+                            'language' => 'en',
+                            'value' => 'test',
+                        ]
+                    ]
+                ]
+            ],
             'relations' => []
         ]);
     }

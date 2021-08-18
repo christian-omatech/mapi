@@ -8,6 +8,7 @@ use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 class InstanceDAOFactory extends Factory
 {
     protected $model = InstanceDAO::class;
+    
     public function definition(): array
     {
         return [

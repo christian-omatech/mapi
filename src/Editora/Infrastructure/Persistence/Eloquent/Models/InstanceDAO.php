@@ -5,6 +5,7 @@ namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 final class InstanceDAO extends Model
@@ -23,8 +24,20 @@ final class InstanceDAO extends Model
         'end_publishing_date',
     ];
 
-    public function values(): HasMany
+    protected function attributes(): HasMany
     {
-        return $this->hasMany(ValueDAO::class, 'instance_id', 'id');
+        return $this->hasMany(AttributeDAO::class, 'instance_id', 'id');
+    }
+
+    public function values(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            ValueDAO::class,
+            AttributeDAO::class,
+            'instance_id',
+            'attribute_id',
+            'id',
+            'id'
+        );
     }
 }

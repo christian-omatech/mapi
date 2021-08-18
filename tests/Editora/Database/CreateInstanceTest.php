@@ -47,13 +47,15 @@ final class CreateInstanceTest extends DatabaseTestCase
             'start_publishing_date' => '1989-03-08 09:00:00',
             'end_publishing_date' => null
         ]);
+
+        $this->assertDatabaseHas('mage_attributes', [
+            'key' => 'all-languages-attribute'
+        ]);
         $this->assertDatabaseHas('mage_values', [
-            'attribute_key' => 'all-languages-attribute',
             'language' => 'es',
             'value' => 'test',
         ]);
         $this->assertDatabaseHas('mage_values', [
-            'attribute_key' => 'all-languages-attribute',
             'language' => 'en',
             'value' => 'test',
         ]);

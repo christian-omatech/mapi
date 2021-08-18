@@ -32,7 +32,6 @@ final class DeleteInstanceTest extends DatabaseTestCase
         foreach($instance->values as $value) {
             $this->assertDatabaseMissing('mage_values', [
                 'id' => $value->id,
-                'attribute_key' => $value->attribute_key,
                 'language' => $value->language,
                 'value' => $value->value,
                 'extra_data' => $value->extra_data,

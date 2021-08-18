@@ -14,7 +14,16 @@ final class CreateInstanceTest extends DatabaseTestCase
         $structureLoader = $this->mock(StructureLoaderInterface::class);
         $structureLoader->shouldReceive('load')->with('ClassFive')->andReturn([
             'attributes' => [
-                'DefaultAttribute' => [],
+                'DefaultAttribute' => [
+                    'attributes' => [
+                        'Subattribute' => [
+                            'attributes' => [
+                                'SubSubattribute' => []
+                            ]
+                        ]
+                    ]
+                ],
+                'AnotherDefaultAttribute' => [],
             ]
         ])->times(2);
 
@@ -42,6 +51,49 @@ final class CreateInstanceTest extends DatabaseTestCase
                             'value' => 'adios',
                         ],
                     ],
+                    'attributes' => [
+                        'subattribute' => [
+                            'values' => [
+                                [
+                                    'id' => null,
+                                    'language' => 'es',
+                                    'value' => 'hola',
+                                ], [
+                                    'id' => null,
+                                    'language' => 'en',
+                                    'value' => 'adios',
+                                ]
+                            ],
+                            'attributes' => [
+                                'sub-subattribute' => [
+                                    'values' => [
+                                        [
+                                            'id' => null,
+                                            'language' => 'es',
+                                            'value' => 'hola',
+                                        ], [
+                                            'id' => null,
+                                            'language' => 'en',
+                                            'value' => 'adios',
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'another-default-attribute' => [
+                    'values' => [
+                        [
+                            'id' => null,
+                            'language' => 'es',
+                            'value' => 'dia',
+                        ], [
+                            'id' => null,
+                            'language' => 'en',
+                            'value' => 'noche',
+                        ],
+                    ],
                 ],
             ],
             'relations' => []
@@ -57,18 +109,48 @@ final class CreateInstanceTest extends DatabaseTestCase
             'start_publishing_date' => '1989-03-08 09:00:00',
         ]);
 
+        $this->assertDatabaseHas('mage_attributes', [
+            'instance_id' => $instance->id(),
+            'key' => 'default-attribute',
+        ]);
+
+        $this->assertDatabaseHas('mage_attributes', [
+            'instance_id' => $instance->id(),
+            'key' => 'subattribute',
+        ]);
+
+        $this->assertDatabaseHas('mage_attributes', [
+            'instance_id' => $instance->id(),
+            'key' => 'sub-subattribute',
+        ]);
+
         $this->assertDatabaseHas('mage_values', [
             'id' => $instance->toArray()['attributes'][0]['values'][0]['id'],
-            'attribute_key' => 'default-attribute',
             'language' => 'es',
             'value' => 'hola',
         ]);
 
         $this->assertDatabaseHas('mage_values', [
             'id' => $instance->toArray()['attributes'][0]['values'][1]['id'],
-            'attribute_key' => 'default-attribute',
             'language' => 'en',
             'value' => 'adios',
+        ]);
+
+        $this->assertDatabaseHas('mage_attributes', [
+            'instance_id' => $instance->id(),
+            'key' => 'another-default-attribute',
+        ]);
+
+        $this->assertDatabaseHas('mage_values', [
+            'id' => $instance->toArray()['attributes'][1]['values'][0]['id'],
+            'language' => 'es',
+            'value' => 'dia',
+        ]);
+
+        $this->assertDatabaseHas('mage_values', [
+            'id' => $instance->toArray()['attributes'][1]['values'][1]['id'],
+            'language' => 'en',
+            'value' => 'noche',
         ]);
 
         $instance2->fill([
@@ -84,11 +166,11 @@ final class CreateInstanceTest extends DatabaseTestCase
                         [
                             'id' => null,
                             'language' => 'es',
-                            'value' => 'hello',
+                            'value' => 'hello1',
                         ], [
                             'id' => null,
                             'language' => 'en',
-                            'value' => 'bye',
+                            'value' => 'bye1',
                         ],
                     ],
                 ],
@@ -106,18 +188,21 @@ final class CreateInstanceTest extends DatabaseTestCase
             'start_publishing_date' => '1989-03-08 09:00:00',
         ]);
 
+        $this->assertDatabaseHas('mage_attributes', [
+            'instance_id' => $instance2->id(),
+            'key' => 'default-attribute',
+        ]);
+
         $this->assertDatabaseHas('mage_values', [
             'id' => $instance2->toArray()['attributes'][0]['values'][0]['id'],
-            'attribute_key' => 'default-attribute',
             'language' => 'es',
-            'value' => 'hello',
+            'value' => 'hello1',
         ]);
 
         $this->assertDatabaseHas('mage_values', [
             'id' => $instance2->toArray()['attributes'][0]['values'][1]['id'],
-            'attribute_key' => 'default-attribute',
             'language' => 'en',
-            'value' => 'bye',
+            'value' => 'bye1',
         ]);
 
         $instance->fill([
@@ -133,11 +218,11 @@ final class CreateInstanceTest extends DatabaseTestCase
                         [
                             'id' => $instance->toArray()['attributes'][0]['values'][0]['id'],
                             'language' => 'es',
-                            'value' => 'adios',
+                            'value' => 'adios2',
                         ], [
                             'id' => $instance->toArray()['attributes'][0]['values'][1]['id'],
                             'language' => 'en',
-                            'value' => 'hola',
+                            'value' => 'hola2',
                         ],
                     ],
                 ],
@@ -154,18 +239,21 @@ final class CreateInstanceTest extends DatabaseTestCase
             'start_publishing_date' => '1989-03-08 09:00:00',
         ]);
 
+        $this->assertDatabaseHas('mage_attributes', [
+            'instance_id' => $instance->id(),
+            'key' => 'default-attribute',
+        ]);
+
         $this->assertDatabaseHas('mage_values', [
             'id' => $instance->toArray()['attributes'][0]['values'][0]['id'],
-            'attribute_key' => 'default-attribute',
             'language' => 'es',
-            'value' => 'adios',
+            'value' => 'adios2',
         ]);
 
         $this->assertDatabaseHas('mage_values', [
             'id' => $instance->toArray()['attributes'][0]['values'][1]['id'],
-            'attribute_key' => 'default-attribute',
             'language' => 'en',
-            'value' => 'hola',
+            'value' => 'hola2',
         ]);
 
         $instance2->fill([
@@ -181,11 +269,11 @@ final class CreateInstanceTest extends DatabaseTestCase
                         [
                             'id' => $instance2->toArray()['attributes'][0]['values'][0]['id'],
                             'language' => 'es',
-                            'value' => 'bye',
+                            'value' => 'bye2',
                         ], [
                             'id' => $instance2->toArray()['attributes'][0]['values'][1]['id'],
                             'language' => 'en',
-                            'value' => 'hello',
+                            'value' => 'hello2',
                         ],
                     ],
                 ],
@@ -202,18 +290,21 @@ final class CreateInstanceTest extends DatabaseTestCase
             'start_publishing_date' => '1989-03-08 09:00:00',
         ]);
 
+        $this->assertDatabaseHas('mage_attributes', [
+            'instance_id' => $instance2->id(),
+            'key' => 'default-attribute',
+        ]);
+
         $this->assertDatabaseHas('mage_values', [
             'id' => $instance2->toArray()['attributes'][0]['values'][0]['id'],
-            'attribute_key' => 'default-attribute',
             'language' => 'es',
-            'value' => 'bye',
+            'value' => 'bye2',
         ]);
 
         $this->assertDatabaseHas('mage_values', [
             'id' => $instance2->toArray()['attributes'][0]['values'][1]['id'],
-            'attribute_key' => 'default-attribute',
             'language' => 'en',
-            'value' => 'hello',
+            'value' => 'hello2',
         ]);
     }
 }
