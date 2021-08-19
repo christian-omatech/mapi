@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Tests;
 
-use Illuminate\Support\Facades\File;
 use Omatech\Mapi\MapiServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 

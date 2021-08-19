@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Data\Factories;
 
@@ -8,7 +8,7 @@ use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 class InstanceDAOFactory extends Factory
 {
     protected $model = InstanceDAO::class;
-    
+
     public function definition(): array
     {
         return [

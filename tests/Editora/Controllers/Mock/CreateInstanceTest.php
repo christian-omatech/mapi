@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Controllers\Mock;
 
@@ -19,9 +19,9 @@ final class CreateInstanceTest extends TestCase
                 'classKey',
                 'key',
                 'startPublishingDate',
-                'status'
+                'status',
             ],
-            'message'
+            'message',
         ]);
         $response->assertStatus(422);
     }
@@ -48,14 +48,14 @@ final class CreateInstanceTest extends TestCase
                     'values' => [
                         [
                             'language' => 'es',
-                            'value' => 'test'
+                            'value' => 'test',
                         ], [
                             'language' => 'en',
-                            'value' => 'test'
-                        ]
-                    ]
-                ]
-            ]
+                            'value' => 'test',
+                        ],
+                    ],
+                ],
+            ],
         ]);
         $response->assertStatus(204);
     }
@@ -73,14 +73,14 @@ final class CreateInstanceTest extends TestCase
                     'values' => [
                         [
                             'language' => 'es',
-                            'value' => 'test'
+                            'value' => 'test',
                         ], [
                             'language' => 'en',
-                            'value' => 'test'
-                        ]
-                    ]
-                ]
-            ]
+                            'value' => 'test',
+                        ],
+                    ],
+                ],
+            ],
         ]);
         $response->assertJsonStructure([
             'status',
@@ -88,9 +88,9 @@ final class CreateInstanceTest extends TestCase
                 'classKey',
                 'key',
                 'startPublishingDate',
-                'status'
+                'status',
             ],
-            'message'
+            'message',
         ]);
         $response->assertStatus(422);
     }

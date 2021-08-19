@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Repositories\Instance;
 
@@ -217,33 +217,33 @@ final class UpdateInstanceTest extends DatabaseTestCase
             'relations' => [
                 'relation-key1' => [
                     'class-two',
-                    'class-three'
+                    'class-three',
                 ],
                 'relation-key2' => [
                     'class-four',
-                    'class-five'
-                ]
+                    'class-five',
+                ],
             ],
             'attributes' => [
                 'DefaultAttribute' => [
                     'attributes' => [
                         'DefaultSubAttribute' => [
                             'attributes' => [
-                                'DefaultSubSubAttribute' => []
-                            ]
-                        ]
-                    ]
+                                'DefaultSubSubAttribute' => [],
+                            ],
+                        ],
+                    ],
                 ],
                 'AnotherDefaultAttribute' => [
                     'attributes' => [
                         'AnotherDefaultSubAttribute' => [
                             'attributes' => [
-                                'AnotherDefaultSubSubAttribute' => []
-                            ]
-                        ]
-                    ]
+                                'AnotherDefaultSubSubAttribute' => [],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ])->once();
         $repository = new InstanceRepository(new InstanceBuilder($structureLoader));
         $instance = $repository->find($instance1->id);
@@ -290,10 +290,10 @@ final class UpdateInstanceTest extends DatabaseTestCase
                                             'value' => 'subsubvalue1updated',
                                         ],
                                     ],
-                                ]
-                            ]
-                        ]
-                    ]
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'another-default-attribute' => [
                     'values' => [
@@ -327,18 +327,18 @@ final class UpdateInstanceTest extends DatabaseTestCase
                                             'value' => 'subsubvalue2updated',
                                         ],
                                     ],
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'relations' => [
                 'relation-key1' => [
                     $instance3->id => $instance3->class_key,
-                    $instance2->id => $instance2->class_key
-                ]
-            ]
+                    $instance2->id => $instance2->class_key,
+                ],
+            ],
         ]);
         $repository->save($instance);
 
@@ -482,28 +482,28 @@ final class UpdateInstanceTest extends DatabaseTestCase
             'key' => 'relation-key1',
             'parent_instance_id' => $instance->id(),
             'child_instance_id' => $instance2->id,
-            'order' => 1
+            'order' => 1,
         ]);
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key1',
             'parent_instance_id' => $instance->id(),
             'child_instance_id' => $instance3->id,
-            'order' => 0
+            'order' => 0,
         ]);
 
         $this->assertDatabaseMissing('mage_relations', [
             'key' => 'relation-key2',
             'parent_instance_id' => $instance->id(),
             'child_instance_id' => $instance4->id,
-            'order' => 1
+            'order' => 1,
         ]);
 
         $this->assertDatabaseMissing('mage_relations', [
             'key' => 'relation-key2',
             'parent_instance_id' => $instance->id(),
             'child_instance_id' => $instance5->id,
-            'order' => 0
+            'order' => 0,
         ]);
     }
 }

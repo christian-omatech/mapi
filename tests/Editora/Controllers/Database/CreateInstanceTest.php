@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Controllers\Database;
 
@@ -25,14 +25,14 @@ final class CreateInstanceTest extends DatabaseTestCase
                     'values' => [
                         [
                             'language' => 'es',
-                            'value' => 'test'
+                            'value' => 'test',
                         ],[
                             'language' => 'en',
-                            'value' => 'test'
+                            'value' => 'test',
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $this->assertDatabaseHas('mage_instances', [
@@ -41,11 +41,11 @@ final class CreateInstanceTest extends DatabaseTestCase
             'key' => 'instance-test',
             'status' => 'pending',
             'start_publishing_date' => '1989-03-08 09:00:00',
-            'end_publishing_date' => null
+            'end_publishing_date' => null,
         ]);
 
         $this->assertDatabaseHas('mage_attributes', [
-            'key' => 'all-languages-attribute'
+            'key' => 'all-languages-attribute',
         ]);
         $this->assertDatabaseHas('mage_values', [
             'language' => 'es',
@@ -105,9 +105,9 @@ final class CreateInstanceTest extends DatabaseTestCase
                             'language' => $value1EN->language,
                             'value' => $value1EN->value,
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $response->assertStatus(422);

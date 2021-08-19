@@ -4,7 +4,7 @@ namespace Omatech\Mapi\Shared\Infrastructure\Tactician;
 
 use League\Tactician\CommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
-/** @infection-ignore-all */
+use function Lambdish\Phunctional\each;
 
 class Bus extends CommandBus
 {
@@ -22,9 +22,9 @@ class Bus extends CommandBus
 
     private function loadConfigMiddleware(string $type): void
     {
-        foreach (config('mage.commandbus')[$type] as $middleware) {
+        each(function (string $middleware) {
             $this->middleware[] = app($middleware);
-        }
+        }, config('mage.commandbus')[$type]);
     }
 
     private function addCommandHandlerMiddleware(): void

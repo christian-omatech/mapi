@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Repositories\Instance;
 
@@ -185,12 +185,12 @@ final class DeleteInstanceTest extends DatabaseTestCase
             'attributes' => [],
             'relations' => [
                 'relation-key1' => [
-                    'class-two'
+                    'class-two',
                 ],
                 'relation-key2' => [
-                    'class-three'
-                ]
-            ]
+                    'class-three',
+                ],
+            ],
         ])->once();
         $repository = new InstanceRepository(new InstanceBuilder($structureLoader));
         $instance = $repository->find($instance1->id);
@@ -337,7 +337,7 @@ final class DeleteInstanceTest extends DatabaseTestCase
             'key' => 'relation-key1',
             'parent_instance_id' => $instance1->i,
             'child_instance_id' => $instance2->id,
-            'order' => 0
+            'order' => 0,
         ]);
 
         $this->assertDatabaseMissing('mage_relations', [
@@ -345,7 +345,7 @@ final class DeleteInstanceTest extends DatabaseTestCase
             'key' => 'relation-key2',
             'parent_instance_id' => $instance1->i,
             'child_instance_id' => $instance3->id,
-            'order' => 0
+            'order' => 0,
         ]);
 
         $this->assertDatabaseHas('mage_instances', [

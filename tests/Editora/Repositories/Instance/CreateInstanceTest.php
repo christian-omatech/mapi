@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Repositories\Instance;
 
@@ -57,33 +57,33 @@ final class CreateInstanceTest extends DatabaseTestCase
             'relations' => [
                 'relation-key1' => [
                     'class-two',
-                    'class-three'
+                    'class-three',
                 ],
                 'relation-key2' => [
                     'class-four',
-                    'class-five'
-                ]
+                    'class-five',
+                ],
             ],
             'attributes' => [
                 'DefaultAttribute' => [
                     'attributes' => [
                         'DefaultSubAttribute' => [
                             'attributes' => [
-                                'DefaultSubSubAttribute' => []
-                            ]
-                        ]
-                    ]
+                                'DefaultSubSubAttribute' => [],
+                            ],
+                        ],
+                    ],
                 ],
                 'AnotherDefaultAttribute' => [
                     'attributes' => [
                         'AnotherDefaultSubAttribute' => [
                             'attributes' => [
-                                'AnotherDefaultSubSubAttribute' => []
-                            ]
-                        ]
-                    ]
+                                'AnotherDefaultSubSubAttribute' => [],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ])->once();
         $repository = new InstanceRepository(new InstanceBuilder($structureLoader));
         $instance = $repository->build('ClassOne');
@@ -129,10 +129,10 @@ final class CreateInstanceTest extends DatabaseTestCase
                                             'value' => 'subsubvalue1',
                                         ],
                                     ],
-                                ]
-                            ]
-                        ]
-                    ]
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'another-default-attribute' => [
                     'values' => [
@@ -166,22 +166,22 @@ final class CreateInstanceTest extends DatabaseTestCase
                                             'value' => 'subsubvalue2',
                                         ],
                                     ],
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'relations' => [
                 'relation-key1' => [
-                    $instance2->id => $instance2->class_key,
-                    $instance3->id => $instance3->class_key,
+                    $instance2->id => $repository->classKey($instance2->id),
+                    $instance3->id => $repository->classKey($instance3->id),
                 ],
                 'relation-key2' => [
-                    $instance4->id => $instance4->class_key,
-                    $instance5->id => $instance5->class_key,
-                ]
-            ]
+                    $instance4->id => $repository->classKey($instance4->id),
+                    $instance5->id => $repository->classKey($instance5->id),
+                ],
+            ],
         ]);
         $repository->save($instance);
 
@@ -288,28 +288,28 @@ final class CreateInstanceTest extends DatabaseTestCase
             'key' => 'relation-key1',
             'parent_instance_id' => $instance->id(),
             'child_instance_id' => $instance2->id,
-            'order' => 0
+            'order' => 0,
         ]);
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key1',
             'parent_instance_id' => $instance->id(),
             'child_instance_id' => $instance3->id,
-            'order' => 1
+            'order' => 1,
         ]);
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key2',
             'parent_instance_id' => $instance->id(),
             'child_instance_id' => $instance4->id,
-            'order' => 0
+            'order' => 0,
         ]);
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key2',
             'parent_instance_id' => $instance->id(),
             'child_instance_id' => $instance5->id,
-            'order' => 1
+            'order' => 1,
         ]);
     }
 }

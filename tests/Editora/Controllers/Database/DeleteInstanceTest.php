@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Database;
 
@@ -52,13 +52,13 @@ final class DeleteInstanceTest extends DatabaseTestCase
             'key' => $instance->key,
             'status' => $instance->status,
             'start_publishing_date' => $instance->start_publishing_date,
-            'end_publishing_date' => $instance->end_publishing_date
+            'end_publishing_date' => $instance->end_publishing_date,
         ]);
 
         $this->assertDatabaseMissing('mage_attributes', [
             'id' => $attribute->id,
             'instance_id' => $instance->id,
-            'key' => 'default-attribute'
+            'key' => 'default-attribute',
         ]);
 
         $this->assertDatabaseMissing('mage_values', [

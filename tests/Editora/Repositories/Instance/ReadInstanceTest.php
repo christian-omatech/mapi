@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Repositories\Instance;
 
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\DB;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Contracts\StructureLoaderInterface;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\InstanceBuilder;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
@@ -218,33 +217,33 @@ final class ReadInstanceTest extends DatabaseTestCase
             'relations' => [
                 'relation-key1' => [
                     'class-two',
-                    'class-three'
+                    'class-three',
                 ],
                 'relation-key2' => [
                     'class-four',
-                    'class-five'
-                ]
+                    'class-five',
+                ],
             ],
             'attributes' => [
                 'DefaultAttribute' => [
                     'attributes' => [
                         'DefaultSubAttribute' => [
                             'attributes' => [
-                                'DefaultSubSubAttribute' => []
-                            ]
-                        ]
-                    ]
+                                'DefaultSubSubAttribute' => [],
+                            ],
+                        ],
+                    ],
                 ],
                 'AnotherDefaultAttribute' => [
                     'attributes' => [
                         'AnotherDefaultSubAttribute' => [
                             'attributes' => [
-                                'AnotherDefaultSubSubAttribute' => []
-                            ]
-                        ]
-                    ]
+                                'AnotherDefaultSubSubAttribute' => [],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ])->once();
         $repository = new InstanceRepository(new InstanceBuilder($structureLoader));
         $instance = $repository->find($instance1->id);
@@ -328,11 +327,11 @@ final class ReadInstanceTest extends DatabaseTestCase
                                             'value' => $value3EN->value,
                                         ],
                                     ],
-                                    'attributes' => []
-                                ]
-                            ]
-                        ]
-                    ]
+                                    'attributes' => [],
+                                ],
+                            ],
+                        ],
+                    ],
                 ], [
                     'key' => $attribute4->key,
                     'type' => 'string',
@@ -383,28 +382,28 @@ final class ReadInstanceTest extends DatabaseTestCase
                                             'value' => $value6EN->value,
                                         ],
                                     ],
-                                    'attributes' => []
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                    'attributes' => [],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'relations' => [
                 [
                     'key' => 'relation-key1',
                     'instances' => [
                         $instance2->id => $instance2->class_key,
-                        $instance3->id => $instance3->class_key
-                    ]
+                        $instance3->id => $instance3->class_key,
+                    ],
                 ], [
                     'key' => 'relation-key2',
                     'instances' => [
                         $instance5->id => $instance5->class_key,
                         $instance4->id => $instance4->class_key,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ], $instance->toArray());
     }
 }

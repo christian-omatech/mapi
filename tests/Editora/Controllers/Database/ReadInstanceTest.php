@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Database;
 
@@ -49,7 +49,7 @@ final class ReadInstanceTest extends DatabaseTestCase
         $response->assertJson([
             'class' => [
                 'key' => 'class-one',
-                'relations' => []
+                'relations' => [],
             ],
             'metadata' => [
                 'id' => $instance->id,
@@ -58,7 +58,7 @@ final class ReadInstanceTest extends DatabaseTestCase
                     'status' => $instance->status,
                     'startPublishingDate' => $instance->start_publishing_date,
                     'endPublishingDate' => $instance->end_publishing_date,
-                ]
+                ],
             ],
             'attributes' => [
                 [
@@ -70,11 +70,11 @@ final class ReadInstanceTest extends DatabaseTestCase
                         ], [
                             'language' => 'en',
                             'value' => 'test',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
-            'relations' => []
+            'relations' => [],
         ]);
     }
 }

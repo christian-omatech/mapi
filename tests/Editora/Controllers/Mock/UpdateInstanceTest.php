@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Controllers\Mock;
 
@@ -29,14 +29,14 @@ final class UpdateInstanceTest extends TestCase
                     'values' => [
                         [
                             'language' => 'es',
-                            'value' => 'test'
+                            'value' => 'test',
                         ], [
                             'language' => 'en',
-                            'value' => 'test'
-                        ]
-                    ]
-                ]
-            ]
+                            'value' => 'test',
+                        ],
+                    ],
+                ],
+            ],
         ]);
         $response->assertStatus(204);
     }

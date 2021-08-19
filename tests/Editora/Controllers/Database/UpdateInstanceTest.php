@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Editora\Controllers\Database;
 
@@ -53,14 +53,14 @@ final class UpdateInstanceTest extends DatabaseTestCase
                     'values' => [
                         [
                             'language' => $valueES->language,
-                            'value' => 'dia'
+                            'value' => 'dia',
                         ],[
                             'language' => $valueEN->language,
-                            'value' => 'day'
+                            'value' => 'day',
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
 
         $response = $this->putJson($instance->id, $instanceData);
@@ -79,17 +79,17 @@ final class UpdateInstanceTest extends DatabaseTestCase
         $this->assertDatabaseHas('mage_attributes', [
             'id' => $attribute->id,
             'instance_id' => $instance->id,
-            'key' => 'all-languages-attribute'
+            'key' => 'all-languages-attribute',
         ]);
         $this->assertDatabaseHas('mage_values', [
             'id' => $valueES->id,
-            'attribute_id' =>  $valueES->attribute_id,
+            'attribute_id' => $valueES->attribute_id,
             'language' => $valueES->language,
             'value' => 'dia',
         ]);
         $this->assertDatabaseHas('mage_values', [
             'id' => $valueEN->id,
-            'attribute_id' =>  $valueEN->attribute_id,
+            'attribute_id' => $valueEN->attribute_id,
             'language' => $valueEN->language,
             'value' => 'day',
         ]);
