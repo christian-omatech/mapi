@@ -1550,12 +1550,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/christian-omatech/mcore.git",
-                "reference": "2203277687592c63ce52af2edae77364a05b2054"
+                "reference": "2e0b992682a4ac4f15c4d53e684314764472b720"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/2203277687592c63ce52af2edae77364a05b2054",
-                "reference": "2203277687592c63ce52af2edae77364a05b2054",
+                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/2e0b992682a4ac4f15c4d53e684314764472b720",
+                "reference": "2e0b992682a4ac4f15c4d53e684314764472b720",
                 "shasum": ""
             },
             "require": {
@@ -1603,7 +1603,7 @@
                 "source": "https://github.com/christian-omatech/mcore/tree/edge",
                 "issues": "https://github.com/christian-omatech/mcore/issues"
             },
-            "time": "2021-08-17T17:29:41+00:00"
+            "time": "2021-08-19T09:54:57+00:00"
         },
         {
             "name": "opis/closure",

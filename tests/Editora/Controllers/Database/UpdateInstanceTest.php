@@ -1,13 +1,11 @@
 <?php
 
-namespace Tests\Editora\Database;
+namespace Tests\Editora\Controllers\Database;
 
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\WithFaker;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
-use Omatech\Mcore\Editora\Domain\Instance\Publication;
 use Omatech\Mcore\Editora\Domain\Instance\PublicationStatus;
 use Tests\DatabaseTestCase;
 
@@ -21,7 +19,7 @@ final class UpdateInstanceTest extends DatabaseTestCase
         $instance = InstanceDAO::create([
             'uuid' => $this->faker->uuid(),
             'class_key' => 'class-one',
-            'key' => 'instance-test2',
+            'key' => 'instance-test22',
             'status' => 'pending',
             'start_publishing_date' => '1989-03-08 09:00:00',
             'end_publishing_date' => null,
@@ -33,13 +31,13 @@ final class UpdateInstanceTest extends DatabaseTestCase
             'key' => 'all-languages-attribute',
         ]);
 
-        $valuees = ValueDAO::create([
+        $valueES = ValueDAO::create([
             'attribute_id' => $attribute->id,
             'language' => 'es',
             'value' => 'test',
             'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
         ]);
-        $valueen = ValueDAO::create([
+        $valueEN = ValueDAO::create([
             'attribute_id' => $attribute->id,
             'language' => 'en',
             'value' => 'test',
@@ -54,12 +52,10 @@ final class UpdateInstanceTest extends DatabaseTestCase
                 'all-languages-attribute' => [
                     'values' => [
                         [
-                            'id' => $valuees->id,
-                            'language' => 'es',
+                            'language' => $valueES->language,
                             'value' => 'dia'
                         ],[
-                            'id' => $valueen->id,
-                            'language' => 'en',
+                            'language' => $valueEN->language,
                             'value' => 'day'
                         ],
                     ]
@@ -86,13 +82,15 @@ final class UpdateInstanceTest extends DatabaseTestCase
             'key' => 'all-languages-attribute'
         ]);
         $this->assertDatabaseHas('mage_values', [
-            'id' => $valuees->id,
-            'language' => 'es',
+            'id' => $valueES->id,
+            'attribute_id' =>  $valueES->attribute_id,
+            'language' => $valueES->language,
             'value' => 'dia',
         ]);
         $this->assertDatabaseHas('mage_values', [
-            'id' => $valueen->id,
-            'language' => 'en',
+            'id' => $valueEN->id,
+            'attribute_id' =>  $valueEN->attribute_id,
+            'language' => $valueEN->language,
             'value' => 'day',
         ]);
     }

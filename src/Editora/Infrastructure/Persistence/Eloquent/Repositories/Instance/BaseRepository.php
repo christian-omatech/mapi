@@ -6,16 +6,20 @@ use Illuminate\Support\Collection;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\InstanceBuilder;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
+use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
 use Omatech\Mcore\Editora\Domain\Instance\Instance;
 use function Lambdish\Phunctional\each;
 use function Lambdish\Phunctional\map;
+use function Lambdish\Phunctional\reduce;
+use function Lambdish\Phunctional\search;
 
 abstract class BaseRepository
 {
     protected InstanceDAO $instance;
     protected AttributeDAO $attribute;
     protected ValueDAO $value;
+    protected RelationDAO $relation;
     protected InstanceBuilder $instanceBuilder;
 
     public function __construct(InstanceBuilder $instanceBuilder)
@@ -23,6 +27,7 @@ abstract class BaseRepository
         $this->instance = new InstanceDAO();
         $this->attribute = new AttributeDAO();
         $this->value = new ValueDAO();
+        $this->relation = new RelationDAO();
         $this->instanceBuilder = $instanceBuilder;
     }
 
@@ -40,6 +45,7 @@ abstract class BaseRepository
                 ?->format('Y-m-d H:i:s'),
         ]);
         $this->attributesToDB($instance->attributes(), $instanceDAO);
+        $this->relationsToDB($instance->relations(), $instanceDAO);
         $instance->fill($this->instanceFromDB($instanceDAO));
     }
 
@@ -53,8 +59,6 @@ abstract class BaseRepository
                 'instance_id' => $instanceDAO->id,
                 'parent_id' => $parentAttributeId,
                 'key' => $attribute['key'],
-            ], [
-                'attribute_key' => $attribute['key'],
             ]);
             $this->valuesToDB($attribute['values'], $attributeDAO);
             $this->attributesToDB($attribute['attributes'], $instanceDAO, $attributeDAO->id);
@@ -68,10 +72,38 @@ abstract class BaseRepository
                 'attribute_id' => $attributeDAO->id,
                 'language' => $value['language'],
             ], [
-                'language' => $value['language'],
                 'value' => $value['value'],
             ]);
         }, $values);
+    }
+
+    private function relationsToDB(array $relations, InstanceDAO $instanceDAO): void
+    {
+        each(function (array $relation) use ($instanceDAO) {
+            each(function (int $instanceId, int $index) use ($relation, $instanceDAO) {
+                $this->relation->updateOrCreate([
+                    'key' => $relation['key'],
+                    'parent_instance_id' => $instanceDAO->id,
+                    'child_instance_id' => $instanceId,
+                ], [
+                    'order' => $index,
+                ]);
+            }, array_keys($relation['instances']), $instanceDAO->id);
+        }, $relations);
+        $this->deleteRelations($instanceDAO, $relations);
+    }
+
+    private function deleteRelations(InstanceDAO $instanceDAO, array $expectedRelations): void
+    {
+        $dbRelations = $instanceDAO->relations->filter(
+            function (RelationDAO $relation) use ($expectedRelations) {
+                $expectedRelation = search(function (array $expectedRelation) use ($relation) {
+                    return $relation->key === $expectedRelation['key'];
+                }, $expectedRelations);
+                return ! isset($expectedRelation['instances'][$relation->child_instance_id]);
+            }
+        );
+        $dbRelations->each(fn (RelationDAO $relation) => $relation->forceDelete());
     }
 
     protected function instanceFromDB(InstanceDAO $instanceDAO): array
@@ -87,7 +119,7 @@ abstract class BaseRepository
                 ],
             ],
             'attributes' => $this->attributesFromDB($instanceDAO->attributes),
-            'relations' => [],
+            'relations' => $this->relationsFromDB($instanceDAO->relations),
         ];
     }
 
@@ -115,25 +147,28 @@ abstract class BaseRepository
 
     private function parseAttributes(array $attributes): array
     {
-        $parsedAttributes = [];
-        each(function ($attribute) use (&$parsedAttributes) {
+        return reduce(function (array $acc, AttributeDAO $attribute): array {
             if ($attribute->attributes) {
-                $parsedAttributes[$attribute->key]['attributes'] =
+                $acc[$attribute->key]['attributes'] =
                     $this->parseAttributes($attribute->attributes);
             }
-            $parsedAttributes[$attribute->key]['values'] = $this->valuesFromDB($attribute->values);
-        }, $attributes);
-        return $parsedAttributes;
+            $acc[$attribute->key]['values'] = $this->valuesFromDB($attribute->values);
+            return $acc;
+        }, $attributes, []);
     }
 
     private function valuesFromDB(Collection $values): array
     {
         return map(function (ValueDAO $value): array {
-            return [
-                'id' => $value->id,
-                'language' => $value->language,
-                'value' => $value->value,
-            ];
+            return ['language' => $value->language, 'value' => $value->value];
         }, $values);
+    }
+
+    private function relationsFromDB(Collection $relations): array
+    {
+        return reduce(function (array $acc, RelationDAO $relation): array {
+            $acc[$relation->key][$relation->child->id] = $relation->child->class_key;
+            return $acc;
+        }, $relations->sortBy('order'), []);
     }
 }

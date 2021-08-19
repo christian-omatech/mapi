@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Editora;
+namespace Tests\Editora\Controllers\Mock;
 
 use Mockery\MockInterface;
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceRepositoryInterface;
@@ -28,11 +28,9 @@ final class UpdateInstanceTest extends TestCase
                 'all-languages-attribute' => [
                     'values' => [
                         [
-                            'id' => null,
                             'language' => 'es',
                             'value' => 'test'
                         ], [
-                            'id' => null,
                             'language' => 'en',
                             'value' => 'test'
                         ]

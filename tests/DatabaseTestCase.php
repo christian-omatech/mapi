@@ -3,11 +3,12 @@
 namespace Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 abstract class DatabaseTestCase extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     protected function getEnvironmentSetUp($app): void
     {

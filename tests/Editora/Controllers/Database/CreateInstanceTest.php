@@ -1,19 +1,17 @@
 <?php
 
-namespace Tests\Editora\Database;
+namespace Tests\Editora\Controllers\Database;
 
-use Exception;
-use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\File;
+use Illuminate\Foundation\Testing\WithFaker;
+use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
-use Omatech\Mcore\Editora\Domain\Instance\Exceptions\InstanceExistsException;
-use PDOException;
 use Tests\DatabaseTestCase;
 
 final class CreateInstanceTest extends DatabaseTestCase
 {
+    use WithFaker;
+
     /** @test */
     public function createInstanceSuccessfullyInMysql(): void
     {
@@ -26,11 +24,9 @@ final class CreateInstanceTest extends DatabaseTestCase
                 'all-languages-attribute' => [
                     'values' => [
                         [
-                            'id' => null,
                             'language' => 'es',
                             'value' => 'test'
                         ],[
-                            'id' => null,
                             'language' => 'en',
                             'value' => 'test'
                         ],
@@ -65,32 +61,49 @@ final class CreateInstanceTest extends DatabaseTestCase
     /** @test */
     public function reCreateInstanceFail(): void
     {
-        $instance = InstanceDAO::factory()->has(
-            ValueDAO::factory()->count(2)->state(new Sequence(
-                        ['language' => 'es'],
-                        ['language' => 'en'],
-                    )),
-            'values'
-        )->state([
-            'key' => 'reinstance'
-        ])->create();
+        $instance1 = InstanceDAO::create([
+            'uuid' => $this->faker->uuid(),
+            'class_key' => 'class-one',
+            'key' => 'instance-one',
+            'status' => 'in-revision',
+            'start_publishing_date' => '1989-03-08 09:00:00',
+            'end_publishing_date' => '2100-03-08 09:00:00',
+        ]);
+
+        $attribute1 = AttributeDAO::create([
+            'instance_id' => $instance1->id,
+            'parent_id' => null,
+            'key' => 'default-attribute',
+        ]);
+
+        $value1ES = ValueDAO::create([
+            'attribute_id' => $attribute1->id,
+            'language' => 'es',
+            'value' => 'valor1',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
+
+        $value1EN = ValueDAO::create([
+            'attribute_id' => $attribute1->id,
+            'language' => 'en',
+            'value' => 'value1',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
 
         $response = $this->postJson('/', [
-            'classKey' => $instance->class_key,
-            'key' => $instance->key,
+            'classKey' => $instance1->class_key,
+            'key' => $instance1->key,
             'status' => 'pending',
             'startPublishingDate' => '1989-03-08 09:00:00',
             'attributes' => [
-                'all-languages-attribute' => [
+                'default-attribute' => [
                     'values' => [
                         [
-                            'id' => null,
-                            'language' => 'es',
-                            'value' => 'test'
+                            'language' => $value1ES->language,
+                            'value' => $value1ES->value,
                         ],[
-                            'id' => null,
-                            'language' => 'en',
-                            'value' => 'test'
+                            'language' => $value1EN->language,
+                            'value' => $value1EN->value,
                         ],
                     ]
                 ]

@@ -4,24 +4,25 @@ namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-final class AttributeDAO extends Model
+final class RelationDAO extends Model
 {
     use SoftDeletes;
     use HasFactory;
 
-    protected $table = 'mage_attributes';
+    protected $table = 'mage_relations';
 
     protected $fillable = [
-        'instance_id',
-        'parent_id',
         'key',
+        'parent_instance_id',
+        'child_instance_id',
+        'order',
     ];
 
-    protected function values(): HasMany
+    protected function child(): BelongsTo
     {
-        return $this->hasMany(ValueDAO::class, 'attribute_id', 'id');
+        return $this->belongsTo(InstanceDAO::class, 'child_instance_id', 'id');
     }
 }

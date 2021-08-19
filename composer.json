@@ -43,8 +43,8 @@
         }
     },
     "scripts": {
-        "phpunit": "vendor/bin/phpunit --coverage-text",
-        "infection": "vendor/bin/infection --coverage=build --skip-initial-tests",
+        "phpunit": "vendor/bin/phpunit",
+        "infection": "vendor/bin/infection -j8 --coverage=build --skip-initial-tests",
         "test": [
             "@phpunit",
             "@infection"
