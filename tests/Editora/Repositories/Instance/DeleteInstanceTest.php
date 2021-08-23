@@ -9,7 +9,7 @@ use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
-use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\InstanceRepository;
+use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance\InstanceRepository;
 use Tests\DatabaseTestCase;
 
 final class DeleteInstanceTest extends DatabaseTestCase

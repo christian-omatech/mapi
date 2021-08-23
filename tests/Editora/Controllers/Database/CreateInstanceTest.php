@@ -113,4 +113,52 @@ final class CreateInstanceTest extends DatabaseTestCase
         $response->assertStatus(422);
         $response->assertJson(['status' => 422, 'message' => '', 'error' => '']);
     }
+
+    /** @test */
+    public function uniqueRule(): void
+    {
+        $response = $this->postJson('/', [
+            'classKey' => 'ClassOne',
+            'key' => 'class-one',
+            'status' => 'pending',
+            'startPublishingDate' => '1989-03-08 09:00:00',
+            'attributes' => [
+                'nice-url' => [
+                    'values' => [
+                        [
+                            'language' => 'es',
+                            'value' => '/es/soy-una-url',
+                        ],[
+                            'language' => 'en',
+                            'value' => '/en/soy-una-url',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $response->assertStatus(204);
+
+        $response = $this->postJson('/', [
+            'classKey' => 'ClassTwo',
+            'key' => 'class-two',
+            'status' => 'pending',
+            'startPublishingDate' => '1989-03-08 09:00:00',
+            'attributes' => [
+                'nice-url' => [
+                    'values' => [
+                        [
+                            'language' => 'es',
+                            'value' => '/es/soy-una-url',
+                        ],[
+                            'language' => 'en',
+                            'value' => '/en/soy-una-url',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $response->assertStatus(422);
+    }
 }

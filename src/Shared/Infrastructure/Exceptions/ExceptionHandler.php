@@ -6,10 +6,18 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Omatech\Mcore\Editora\Domain\Instance\Exceptions\InstanceExistsException;
+use Omatech\Mcore\Editora\Domain\Instance\Validator\Exceptions\UniqueValueException;
 
 final class ExceptionHandler extends Handler
 {
     public function register()
+    {
+        $this->validationException();
+        $this->instanceExistsException();
+        $this->uniqueValueException();
+    }
+
+    private function validationException(): void
     {
         if (request()->wantsJson()) {
             $this->renderable(function (ValidationException $exception) {
@@ -20,13 +28,31 @@ final class ExceptionHandler extends Handler
                 ], $exception->status);
             });
         }
+    }
 
-        $this->renderable(function (InstanceExistsException $exception) {
-            return new JsonResponse([
-                'status' => 422,
-                'error' => '',
-                'message' => $exception->getMessage(),
-            ], 422);
-        });
+    private function instanceExistsException(): void
+    {
+        if (request()->wantsJson()) {
+            $this->renderable(function (InstanceExistsException $exception) {
+                return new JsonResponse([
+                    'status' => 422,
+                    'error' => '',
+                    'message' => $exception->getMessage(),
+                ], 422);
+            });
+        }
+    }
+
+    private function uniqueValueException(): void
+    {
+        if (request()->wantsJson()) {
+            $this->renderable(function (UniqueValueException $exception) {
+                return new JsonResponse([
+                    'status' => 422,
+                    'error' => '',
+                    'message' => $exception->getMessage(),
+                ], 422);
+            });
+        }
     }
 }

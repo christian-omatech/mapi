@@ -51,6 +51,7 @@ return [
         ]
     ],
     'exclude' => [
-        '*0000_00_00*.php'
+        '*0000_00_00*.php',
+        'EditoraServiceProvider.php'
     ]
 ];

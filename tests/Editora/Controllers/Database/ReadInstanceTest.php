@@ -30,13 +30,13 @@ final class ReadInstanceTest extends DatabaseTestCase
             'key' => 'all-languages-attribute',
         ]);
 
-        ValueDAO::create([
+        $valueES = ValueDAO::create([
             'attribute_id' => $attribute->id,
             'language' => 'es',
             'value' => 'test',
             'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
         ]);
-        ValueDAO::create([
+        $valueEN = ValueDAO::create([
             'attribute_id' => $attribute->id,
             'language' => 'en',
             'value' => 'test',
@@ -67,9 +67,13 @@ final class ReadInstanceTest extends DatabaseTestCase
                         [
                             'language' => 'es',
                             'value' => 'test',
+                            'id' => $valueES->id,
+                            'extraData' => json_decode($valueES->extra_data, true),
                         ], [
                             'language' => 'en',
                             'value' => 'test',
+                            'id' => $valueEN->id,
+                            'extraData' => json_decode($valueEN->extra_data, true),
                         ],
                     ],
                 ],

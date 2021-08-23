@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories;
+namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance;
 
-use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance\BaseRepository;
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceRepositoryInterface;
 use Omatech\Mcore\Editora\Domain\Instance\Instance;
 

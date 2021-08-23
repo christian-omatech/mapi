@@ -1305,16 +1305,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.51.1",
+            "version": "2.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922"
+                "reference": "369c0e2737c56a0f39c946dd261855255a6fccbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922",
-                "reference": "8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/369c0e2737c56a0f39c946dd261855255a6fccbe",
+                "reference": "369c0e2737c56a0f39c946dd261855255a6fccbe",
                 "shasum": ""
             },
             "require": {
@@ -1395,7 +1395,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-28T13:16:28+00:00"
+            "time": "2021-08-14T19:10:52+00:00"
         },
         {
             "name": "nette/schema",
@@ -1550,12 +1550,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/christian-omatech/mcore.git",
-                "reference": "f87cbc42c5899c10a163cc35bf01f7949e5a3bbc"
+                "reference": "a330531fcbeef0eddf0e01201074f69fd6f09483"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/f87cbc42c5899c10a163cc35bf01f7949e5a3bbc",
-                "reference": "f87cbc42c5899c10a163cc35bf01f7949e5a3bbc",
+                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/a330531fcbeef0eddf0e01201074f69fd6f09483",
+                "reference": "a330531fcbeef0eddf0e01201074f69fd6f09483",
                 "shasum": ""
             },
             "require": {
@@ -1603,7 +1603,7 @@
                 "source": "https://github.com/christian-omatech/mcore/tree/edge",
                 "issues": "https://github.com/christian-omatech/mcore/issues"
             },
-            "time": "2021-08-19T22:55:57+00:00"
+            "time": "2021-08-23T20:57:29+00:00"
         },
         {
             "name": "opis/closure",
@@ -7992,12 +7992,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "3c3cc12a9f163e589a12b9ea756c5a2dae9c59dd"
+                "reference": "cd0a994884c7323cdc591f02b6027e00c1d88e74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/3c3cc12a9f163e589a12b9ea756c5a2dae9c59dd",
-                "reference": "3c3cc12a9f163e589a12b9ea756c5a2dae9c59dd",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/cd0a994884c7323cdc591f02b6027e00c1d88e74",
+                "reference": "cd0a994884c7323cdc591f02b6027e00c1d88e74",
                 "shasum": ""
             },
             "conflict": {
@@ -8175,7 +8175,7 @@
                 "phpunit/phpunit": ">=4.8.19,<4.8.28|>=5.0.10,<5.6.3",
                 "phpwhois/phpwhois": "<=4.2.5",
                 "phpxmlrpc/extras": "<0.6.1",
-                "pimcore/pimcore": "<10.0.7",
+                "pimcore/pimcore": "<10.1.1",
                 "pocketmine/pocketmine-mp": "<3.15.4",
                 "pressbooks/pressbooks": "<5.18",
                 "prestashop/autoupgrade": ">=4,<4.10.1",
@@ -8198,8 +8198,8 @@
                 "scheb/two-factor-bundle": ">=0,<3.26|>=4,<4.11",
                 "sensiolabs/connect": "<4.2.3",
                 "serluck/phpwhois": "<=4.2.6",
-                "shopware/core": "<=6.4.1",
-                "shopware/platform": "<=6.4.1",
+                "shopware/core": "<=6.4.3",
+                "shopware/platform": "<=6.4.3",
                 "shopware/production": "<=6.3.5.2",
                 "shopware/shopware": "<=5.6.9",
                 "silverstripe/admin": ">=1.0.3,<1.0.4|>=1.1,<1.1.1",
@@ -8367,7 +8367,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-19T16:07:21+00:00"
+            "time": "2021-08-23T20:03:09+00:00"
         },
         {
             "name": "sanmai/later",
@@ -9521,16 +9521,16 @@
         },
         {
             "name": "seld/phar-utils",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/phar-utils.git",
-                "reference": "8674b1d84ffb47cc59a101f5d5a3b61e87d23796"
+                "reference": "749042a2315705d2dfbbc59234dd9ceb22bf3ff0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/phar-utils/zipball/8674b1d84ffb47cc59a101f5d5a3b61e87d23796",
-                "reference": "8674b1d84ffb47cc59a101f5d5a3b61e87d23796",
+                "url": "https://api.github.com/repos/Seldaek/phar-utils/zipball/749042a2315705d2dfbbc59234dd9ceb22bf3ff0",
+                "reference": "749042a2315705d2dfbbc59234dd9ceb22bf3ff0",
                 "shasum": ""
             },
             "require": {
@@ -9563,9 +9563,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/phar-utils/issues",
-                "source": "https://github.com/Seldaek/phar-utils/tree/master"
+                "source": "https://github.com/Seldaek/phar-utils/tree/1.1.2"
             },
-            "time": "2020-07-07T18:42:57+00:00"
+            "time": "2021-08-19T21:01:38+00:00"
         },
         {
             "name": "slevomat/coding-standard",
@@ -9823,16 +9823,16 @@
         },
         {
             "name": "spatie/ray",
-            "version": "1.29.2",
+            "version": "1.30.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ray.git",
-                "reference": "54fab06e3cdeef2b64290fe48645c21dea2fb9ef"
+                "reference": "8eff2ec7f7f5a5b74519a052302fcfb274c53b97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ray/zipball/54fab06e3cdeef2b64290fe48645c21dea2fb9ef",
-                "reference": "54fab06e3cdeef2b64290fe48645c21dea2fb9ef",
+                "url": "https://api.github.com/repos/spatie/ray/zipball/8eff2ec7f7f5a5b74519a052302fcfb274c53b97",
+                "reference": "8eff2ec7f7f5a5b74519a052302fcfb274c53b97",
                 "shasum": ""
             },
             "require": {
@@ -9882,7 +9882,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/ray/issues",
-                "source": "https://github.com/spatie/ray/tree/1.29.2"
+                "source": "https://github.com/spatie/ray/tree/1.30.0"
             },
             "funding": [
                 {
@@ -9894,7 +9894,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-08-15T09:41:49+00:00"
+            "time": "2021-08-20T09:09:05+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Contracts\StructureLoaderInterface;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\InstanceBuilder;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
-use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\InstanceRepository;
+use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance\InstanceRepository;
 use Tests\DatabaseTestCase;
 
 final class CreateInstanceTest extends DatabaseTestCase

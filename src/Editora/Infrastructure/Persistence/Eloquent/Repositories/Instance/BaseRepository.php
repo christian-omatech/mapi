@@ -8,7 +8,13 @@ use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
+use Omatech\Mcore\Editora\Domain\Attribute\Attribute;
+use Omatech\Mcore\Editora\Domain\Attribute\AttributeCollection;
 use Omatech\Mcore\Editora\Domain\Instance\Instance;
+use Omatech\Mcore\Editora\Domain\Instance\InstanceRelation;
+use Omatech\Mcore\Editora\Domain\Instance\InstanceRelationCollection;
+use Omatech\Mcore\Editora\Domain\Value\BaseValue;
+use Omatech\Mcore\Editora\Domain\Value\ValueCollection;
 use function Lambdish\Phunctional\each;
 use function Lambdish\Phunctional\map;
 use function Lambdish\Phunctional\reduce;
@@ -35,8 +41,8 @@ abstract class BaseRepository
     {
         $instanceDAO = $this->instance->updateOrCreate([
             'id' => $instance->id(),
-        ], [
             'class_key' => $instance->data()['classKey'],
+        ], [
             'key' => $instance->data()['key'],
             'status' => $instance->data()['status'],
             'start_publishing_date' => $instance->data()['startPublishingDate']
@@ -50,57 +56,66 @@ abstract class BaseRepository
     }
 
     private function attributesToDB(
-        array $attributes,
+        AttributeCollection $attributes,
         InstanceDAO $instanceDAO,
         ?int $parentAttributeId = null
     ): void {
-        each(function (array $attribute) use ($instanceDAO, $parentAttributeId) {
+        each(function (Attribute $attribute) use ($instanceDAO, $parentAttributeId) {
             $attributeDAO = $this->attribute->updateOrCreate([
                 'instance_id' => $instanceDAO->id,
                 'parent_id' => $parentAttributeId,
-                'key' => $attribute['key'],
+                'key' => $attribute->key(),
             ]);
-            $this->valuesToDB($attribute['values'], $attributeDAO);
-            $this->attributesToDB($attribute['attributes'], $instanceDAO, $attributeDAO->id);
-        }, $attributes);
+            $this->valuesToDB($attribute->values(), $attributeDAO);
+            $this->attributesToDB($attribute->attributes(), $instanceDAO, $attributeDAO->id);
+        }, $attributes->get());
     }
 
-    private function valuesToDB(array $values, AttributeDAO $attributeDAO): void
+    private function valuesToDB(ValueCollection $values, AttributeDAO $attributeDAO): void
     {
-        each(function (array $value) use ($attributeDAO) {
+        each(function (BaseValue $value) use ($attributeDAO) {
             $this->value->updateOrCreate([
+                'id' => $value->id(),
                 'attribute_id' => $attributeDAO->id,
-                'language' => $value['language'],
+                'language' => $value->language(),
             ], [
-                'value' => $value['value'],
+                'value' => $value->value(),
+                'extra_data' => json_encode($value->extraData()),
             ]);
-        }, $values);
+        }, $values->get());
     }
 
-    private function relationsToDB(array $relations, InstanceDAO $instanceDAO): void
-    {
-        each(function (array $relation) use ($instanceDAO) {
+    private function relationsToDB(
+        InstanceRelationCollection $relations,
+        InstanceDAO $instanceDAO
+    ): void {
+        each(function (InstanceRelation $relation) use ($instanceDAO) {
             each(function (int $instanceId, int $index) use ($relation, $instanceDAO) {
                 $this->relation->updateOrCreate([
-                    'key' => $relation['key'],
+                    'key' => $relation->key(),
                     'parent_instance_id' => $instanceDAO->id,
                     'child_instance_id' => $instanceId,
                 ], [
                     'order' => $index,
                 ]);
-            }, array_keys($relation['instances']), $instanceDAO->id);
-        }, $relations);
+            }, array_keys($relation->instances()), $instanceDAO->id);
+        }, $relations->get());
         $this->deleteRelations($instanceDAO, $relations);
     }
 
-    private function deleteRelations(InstanceDAO $instanceDAO, array $expectedRelations): void
-    {
+    private function deleteRelations(
+        InstanceDAO $instanceDAO,
+        InstanceRelationCollection $expectedRelations
+    ): void {
         $dbRelations = $instanceDAO->relations->filter(
             function (RelationDAO $relation) use ($expectedRelations) {
-                $expectedRelation = search(function (array $expectedRelation) use ($relation) {
-                    return $relation->key === $expectedRelation['key'];
-                }, $expectedRelations);
-                return ! isset($expectedRelation['instances'][$relation->child_instance_id]);
+                $expectedRelation = search(
+                    function (InstanceRelation $expectedRelation) use ($relation) {
+                        return $relation->key === $expectedRelation->key();
+                    },
+                    $expectedRelations->get()
+                );
+                return ! $expectedRelation?->instanceExists($relation->child_instance_id);
             }
         );
         $dbRelations->each(fn (RelationDAO $relation) => $relation->forceDelete());
@@ -160,7 +175,12 @@ abstract class BaseRepository
     private function valuesFromDB(Collection $values): array
     {
         return map(function (ValueDAO $value): array {
-            return ['language' => $value->language, 'value' => $value->value];
+            return [
+                'id' => $value->id,
+                'language' => $value->language,
+                'value' => $value->value,
+                'extraData' => json_decode($value->extra_data, true),
+            ];
         }, $values);
     }
 

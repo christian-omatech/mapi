@@ -2,3 +2,16 @@ classes:
   ClassOne:
     attributes:
       AllLanguagesAttribute:
+      NiceUrl:
+        values:
+          rules:
+            unique:
+              class: Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Attribute\AttributeRepository
+  ClassTwo:
+    attributes:
+      AllLanguagesAttribute:
+      NiceUrl:
+        values:
+          rules:
+            unique:
+              class: Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Attribute\AttributeRepository

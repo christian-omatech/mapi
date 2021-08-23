@@ -9,7 +9,7 @@ use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
-use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\InstanceRepository;
+use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance\InstanceRepository;
 use Tests\DatabaseTestCase;
 
 final class ReadInstanceTest extends DatabaseTestCase
@@ -286,11 +286,15 @@ final class ReadInstanceTest extends DatabaseTestCase
                             'rules' => [],
                             'configuration' => [],
                             'value' => $value1ES->value,
+                            'id' => $value1ES->id,
+                            'extraData' => json_decode($value1ES->extra_data, true),
                         ], [
                             'language' => $value1EN->language,
                             'rules' => [],
                             'configuration' => [],
                             'value' => $value1EN->value,
+                            'id' => $value1EN->id,
+                            'extraData' => json_decode($value1EN->extra_data, true),
                         ],
                     ],
                     'attributes' => [
@@ -303,11 +307,15 @@ final class ReadInstanceTest extends DatabaseTestCase
                                     'rules' => [],
                                     'configuration' => [],
                                     'value' => $value2ES->value,
+                                    'id' => $value2ES->id,
+                                    'extraData' => json_decode($value2ES->extra_data, true),
                                 ], [
                                     'language' => $value2EN->language,
                                     'rules' => [],
                                     'configuration' => [],
                                     'value' => $value2EN->value,
+                                    'id' => $value2EN->id,
+                                    'extraData' => json_decode($value2EN->extra_data, true),
                                 ],
                             ],
                             'attributes' => [
@@ -320,11 +328,15 @@ final class ReadInstanceTest extends DatabaseTestCase
                                             'rules' => [],
                                             'configuration' => [],
                                             'value' => $value3ES->value,
+                                            'id' => $value3ES->id,
+                                            'extraData' => json_decode($value3ES->extra_data, true),
                                         ], [
                                             'language' => $value3EN->language,
                                             'rules' => [],
                                             'configuration' => [],
                                             'value' => $value3EN->value,
+                                            'id' => $value3EN->id,
+                                            'extraData' => json_decode($value3EN->extra_data, true),
                                         ],
                                     ],
                                     'attributes' => [],
@@ -341,11 +353,15 @@ final class ReadInstanceTest extends DatabaseTestCase
                             'rules' => [],
                             'configuration' => [],
                             'value' => $value4ES->value,
+                            'id' => $value4ES->id,
+                            'extraData' => json_decode($value4ES->extra_data, true),
                         ], [
                             'language' => $value4EN->language,
                             'rules' => [],
                             'configuration' => [],
                             'value' => $value4EN->value,
+                            'id' => $value4EN->id,
+                            'extraData' => json_decode($value4EN->extra_data, true),
                         ],
                     ],
                     'attributes' => [
@@ -358,11 +374,15 @@ final class ReadInstanceTest extends DatabaseTestCase
                                     'rules' => [],
                                     'configuration' => [],
                                     'value' => $value5ES->value,
+                                    'id' => $value5ES->id,
+                                    'extraData' => json_decode($value5ES->extra_data, true),
                                 ], [
                                     'language' => $value5EN->language,
                                     'rules' => [],
                                     'configuration' => [],
                                     'value' => $value5EN->value,
+                                    'id' => $value5EN->id,
+                                    'extraData' => json_decode($value5EN->extra_data, true),
                                 ],
                             ],
                             'attributes' => [
@@ -375,11 +395,15 @@ final class ReadInstanceTest extends DatabaseTestCase
                                             'rules' => [],
                                             'configuration' => [],
                                             'value' => $value6ES->value,
+                                            'id' => $value6ES->id,
+                                            'extraData' => json_decode($value6ES->extra_data, true),
                                         ], [
                                             'language' => $value6EN->language,
                                             'rules' => [],
                                             'configuration' => [],
                                             'value' => $value6EN->value,
+                                            'id' => $value6EN->id,
+                                            'extraData' => json_decode($value6EN->extra_data, true),
                                         ],
                                     ],
                                     'attributes' => [],
