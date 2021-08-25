@@ -136,7 +136,6 @@ final class CreateInstanceTest extends DatabaseTestCase
                 ],
             ],
         ]);
-
         $response->assertStatus(204);
 
         $response = $this->postJson('/', [
@@ -158,7 +157,6 @@ final class CreateInstanceTest extends DatabaseTestCase
                 ],
             ],
         ]);
-
         $response->assertStatus(422);
     }
 }

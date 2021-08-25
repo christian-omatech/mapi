@@ -31,6 +31,12 @@ final class UpdateInstanceTest extends DatabaseTestCase
             'key' => 'all-languages-attribute',
         ]);
 
+        $attribute2 = AttributeDAO::create([
+            'instance_id' => $instance->id,
+            'parent_id' => null,
+            'key' => 'nice-url',
+        ]);
+
         $valueES = ValueDAO::create([
             'attribute_id' => $attribute->id,
             'language' => 'es',
@@ -44,7 +50,21 @@ final class UpdateInstanceTest extends DatabaseTestCase
             'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
         ]);
 
+        $value2ES = ValueDAO::create([
+            'attribute_id' => $attribute2->id,
+            'language' => 'es',
+            'value' => '/es/soy-una-url',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
+        $value2EN = ValueDAO::create([
+            'attribute_id' => $attribute2->id,
+            'language' => 'en',
+            'value' => '/en/soy-una-url',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
+
         $instanceData = [
+            'classKey' => $instance->class_key,
             'key' => $instance->key,
             'startPublishingDate' => $instance->start_publishing_date,
             'status' => PublicationStatus::PUBLISHED,
@@ -52,11 +72,26 @@ final class UpdateInstanceTest extends DatabaseTestCase
                 'all-languages-attribute' => [
                     'values' => [
                         [
+                            'id' => $valueES->id,
                             'language' => $valueES->language,
-                            'value' => 'dia',
-                        ],[
+                            'value' => 'dia'
+                        ], [
+                            'id' => $valueEN->id,
                             'language' => $valueEN->language,
-                            'value' => 'day',
+                            'value' => 'day'
+                        ],
+                    ],
+                ],
+                'nice-url' => [
+                    'values' => [
+                        [
+                            'id' => $value2ES->id,
+                            'language' => $value2ES->language,
+                            'value' => '/es/soy-una-url'
+                        ], [
+                            'id' => $value2EN->id,
+                            'language' => $value2EN->language,
+                            'value' => '/en/soy-una-url'
                         ],
                     ],
                 ],

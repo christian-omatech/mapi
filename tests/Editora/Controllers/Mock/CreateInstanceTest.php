@@ -13,15 +13,10 @@ final class CreateInstanceTest extends TestCase
     public function failedValidationOnCreateInstance(): void
     {
         $response = $this->postJson('/', []);
-        $response->assertJsonStructure([
-            'status',
-            'error' => [
-                'classKey',
-                'key',
-                'startPublishingDate',
-                'status',
-            ],
-            'message',
+        $response->assertJson([
+            'status' => '422',
+            'error' => '',
+            'message' => 'Class  not found.',
         ]);
         $response->assertStatus(422);
     }
@@ -39,7 +34,7 @@ final class CreateInstanceTest extends TestCase
         });
 
         $response = $this->postJson('/', [
-            'classKey' => 'test',
+            'classKey' => 'ClassOne',
             'key' => 'test',
             'status' => 'pending',
             'startPublishingDate' => '1989-03-08 09:00:00',
@@ -64,7 +59,7 @@ final class CreateInstanceTest extends TestCase
     public function invalidHeadersOnPostCall(): void
     {
         $response = $this->post('/', [
-            'classKey' => 'test',
+            'classKey' => 'ClassOne',
             'key' => 'test',
             'status' => 'pending',
             'startPublishingDate' => '1989-03-08 09:00:00',
@@ -82,15 +77,10 @@ final class CreateInstanceTest extends TestCase
                 ],
             ],
         ]);
-        $response->assertJsonStructure([
-            'status',
-            'error' => [
-                'classKey',
-                'key',
-                'startPublishingDate',
-                'status',
-            ],
-            'message',
+        $response->assertJson([
+            'status' => '422',
+            'error' => '',
+            'message' => 'Class  not found.',
         ]);
         $response->assertStatus(422);
     }
