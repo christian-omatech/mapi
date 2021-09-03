@@ -15,3 +15,6 @@ classes:
           rules:
             unique:
               class: Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Attribute\AttributeRepository
+  ClassThree:
+    attributes:
+      DefaultAttribute:

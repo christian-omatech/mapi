@@ -10,7 +10,6 @@ class EloquentTransactionMiddleware implements Middleware
     public function execute($command, callable $next)
     {
         DB::transaction(function () use ($command, $next) {
-            /** @infection-ignore-all */
             return $next($command);
         });
     }

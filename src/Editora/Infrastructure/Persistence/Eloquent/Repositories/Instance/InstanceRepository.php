@@ -19,6 +19,13 @@ final class InstanceRepository extends BaseRepository implements InstanceReposit
             ->fill($this->instanceFromDB($model));
     }
 
+    public function findByKey(string $key): ?Instance
+    {
+        $model = $this->instance->where('key', $key)->first();
+        return $this->build($model->class_key)
+            ->fill($this->instanceFromDB($model));
+    }
+
     public function exists(string $key): bool
     {
         return $this->instance->where('key', $key)->exists();
