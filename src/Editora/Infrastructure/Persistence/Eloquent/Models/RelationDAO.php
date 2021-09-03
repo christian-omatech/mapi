@@ -19,7 +19,7 @@ final class RelationDAO extends Model
         'order',
     ];
 
-    protected function child(): BelongsTo
+    public function child(): BelongsTo
     {
         return $this->belongsTo(InstanceDAO::class, 'child_instance_id', 'id');
     }

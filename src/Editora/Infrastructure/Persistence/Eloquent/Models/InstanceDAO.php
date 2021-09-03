@@ -26,7 +26,7 @@ final class InstanceDAO extends Model
         return $this->hasMany(AttributeDAO::class, 'instance_id', 'id');
     }
 
-    protected function relations(): HasMany
+    public function relations(): HasMany
     {
         return $this->hasMany(RelationDAO::class, 'parent_instance_id', 'id');
     }

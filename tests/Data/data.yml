@@ -16,5 +16,11 @@ classes:
             unique:
               class: Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Attribute\AttributeRepository
   ClassThree:
+    relations:
+      RelationKey1:
+        - ClassFour
+    attributes:
+      DefaultAttribute:
+  ClassFour:
     attributes:
       DefaultAttribute:
