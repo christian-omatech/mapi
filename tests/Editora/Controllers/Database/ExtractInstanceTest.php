@@ -31,7 +31,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
             'key' => 'default-attribute',
         ]);
 
-        ValueDAO::create([
+        $valueES1 = ValueDAO::create([
             'attribute_id' => $attribute1->id,
             'language' => 'es',
             'value' => 'valor1',
@@ -60,7 +60,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
             'key' => 'default-attribute',
         ]);
 
-        ValueDAO::create([
+        $valueES2 = ValueDAO::create([
             'attribute_id' => $attribute2->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -89,7 +89,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
             'key' => 'default-attribute',
         ]);
 
-        ValueDAO::create([
+        $valueES3 = ValueDAO::create([
             'attribute_id' => $attribute3->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -118,7 +118,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
             'key' => 'default-attribute',
         ]);
 
-        ValueDAO::create([
+        $valueES4 = ValueDAO::create([
             'attribute_id' => $attribute4->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -147,7 +147,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
             'key' => 'default-attribute',
         ]);
 
-        ValueDAO::create([
+        $valueES5 = ValueDAO::create([
             'attribute_id' => $attribute5->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -176,7 +176,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
             'key' => 'default-attribute',
         ]);
 
-        ValueDAO::create([
+        $valueES6 = ValueDAO::create([
             'attribute_id' => $attribute6->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -239,33 +239,25 @@ final class ExtractInstanceTest extends DatabaseTestCase
         $response->assertStatus(200);
         $response->assertJson([
             'key' => 'instance-one',
-            'language' => 'es',
             'attributes' => [
                 [
+                    'id' => $valueES1->id,
                     'key' => 'default-attribute',
-                    'value' => 'valor1',
+                    'value' => $valueES1->value,
                     'attributes' => []
                 ]
-            ],
-            'params' => [
-                'preview' => false,
-                'language' => 'es'
             ],
             'relations' => [
                 'relation-key1' => [
                     [
                         'key' => 'instance-two',
-                        'language' => 'es',
                         'attributes' => [
                             [
+                                'id' => $valueES2->id,
                                 'key' => 'default-attribute',
-                                'value' => 'valor2',
+                                'value' => $valueES2->value,
                                 'attributes' => []
                             ]
-                        ],
-                        'params' => [
-                            'preview' => false,
-                            'language' => 'es'
                         ],
                         'relations' => []
                     ]
@@ -273,50 +265,38 @@ final class ExtractInstanceTest extends DatabaseTestCase
                 'relation-key2' => [
                     [
                         'key' => 'instance-three',
-                        'language' => 'es',
                         'attributes' => [
                             [
+                                'id' => $valueES3->id,
                                 'key' => 'default-attribute',
-                                'value' => 'valor2',
+                                'value' => $valueES3->value,
                                 'attributes' => []
                             ]
-                        ],
-                        'params' => [
-                            'preview' => false,
-                            'language' => 'es'
                         ],
                         'relations' => [
                             'relation-key3' => []
                         ]
                     ], [
                         'key' => 'instance-four',
-                        'language' => 'es',
                         'attributes' => [
                             [
+                                'id' => $valueES4->id,
                                 'key' => 'default-attribute',
-                                'value' => 'valor2',
+                                'value' => $valueES4->value,
                                 'attributes' => []
                             ]
-                        ],
-                        'params' => [
-                            'preview' => false,
-                            'language' => 'es'
                         ],
                         'relations' => [
                             'relation-key3' => [
                                 [
                                     'key' => 'instance-six',
-                                    'language' => 'es',
                                     'attributes' => [
                                         [
+                                            'id' => $valueES6->id,
                                             'key' => 'default-attribute',
-                                            'value' => 'valor2',
+                                            'value' => $valueES6->value,
                                             'attributes' => []
                                         ]
-                                    ],
-                                    'params' => [
-                                        'preview' => false,
-                                        'language' => 'es'
                                     ],
                                     'relations' => []
                                 ]
