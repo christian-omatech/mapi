@@ -4,7 +4,6 @@ namespace Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Loaders;
 
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Contracts\StructureLoaderInterface;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Loaders\Exceptions\ClassNotFoundException;
-use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlStructureLoader implements StructureLoaderInterface

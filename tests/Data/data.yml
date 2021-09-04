@@ -19,8 +19,19 @@ classes:
     relations:
       RelationKey1:
         - ClassFour
+      RelationKey2:
+        - ClassFive
     attributes:
       DefaultAttribute:
   ClassFour:
+    attributes:
+      DefaultAttribute:
+  ClassFive:
+    relations:
+      RelationKey3:
+        - ClassSix
+    attributes:
+      DefaultAttribute:
+  ClassSix:
     attributes:
       DefaultAttribute:

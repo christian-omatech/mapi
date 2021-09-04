@@ -29,15 +29,15 @@ final class InstanceRepository extends BaseRepository implements InstanceReposit
     public function findChildrenInstances(int $instanceId, string $key, array $params): array
     {
         $instances = $this->instance->where('id', $instanceId)
-            ->whereHas('relations', function($q) use ($key, $params) {
+            ->with('relations', function ($q) use ($key, $params) {
                 $q->where('key', $key)
-                    ->limit($params['limit']);
+                    ->limit($params['limit'])
+                    ->with('child');
             })
-            ->with('relations.child')
             ->get();
 
-        return $instances->reduce(function($acc, $instance) {
-            return $acc + $instance->relations->reduce(function($acc, $relation){
+        return $instances->reduce(function ($acc, $instance) {
+            return $acc + $instance->relations->reduce(function ($acc, $relation) {
                 $acc[] = $this->build($relation->child->class_key)
                     ->fill($this->instanceFromDB($relation->child));
                 return $acc;

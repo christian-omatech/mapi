@@ -7,7 +7,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Loaders\Exceptions\ClassNotFoundException;
 use Omatech\Mcore\Editora\Domain\Instance\Exceptions\InstanceExistsException;
-use Omatech\Mcore\Editora\Domain\Instance\Validator\Exceptions\RequiredValueException;
 use Omatech\Mcore\Editora\Domain\Instance\Validator\Exceptions\UniqueValueException;
 
 final class ExceptionHandler extends Handler
