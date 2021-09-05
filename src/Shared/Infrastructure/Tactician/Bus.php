@@ -6,11 +6,8 @@ use League\Tactician\CommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use function Lambdish\Phunctional\each;
 
-class Bus extends CommandBus
+abstract class Bus extends CommandBus
 {
-    public const QUERY_BUS = 'query_middleware';
-    public const COMMAND_BUS = 'command_middleware';
-
     private array $middleware;
 
     public function __construct(string $type)

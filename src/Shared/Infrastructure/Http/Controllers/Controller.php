@@ -7,17 +7,19 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Omatech\Mapi\Shared\Infrastructure\Tactician\Bus;
+use Omatech\Mapi\Shared\Infrastructure\Tactician\CommandBus;
+use Omatech\Mapi\Shared\Infrastructure\Tactician\QueryBus;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected Bus $commandBus;
-    protected Bus $queryBus;
+    protected CommandBus $commandBus;
+    protected QueryBus $queryBus;
 
     public function __construct()
     {
-        $this->commandBus = new Bus(Bus::COMMAND_BUS);
-        $this->queryBus = new Bus(Bus::QUERY_BUS);
+        $this->commandBus = new CommandBus();
+        $this->queryBus = new QueryBus();
     }
 }

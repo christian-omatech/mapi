@@ -26,5 +26,7 @@ final class MapiServiceProvider extends ServiceProvider
 
         $this->app->register(EditoraServiceProvider::class);
         $this->app->register(ConfigurationServiceProvider::class);
+
+        $this->loadMigrationsFrom(__DIR__.'/Shared/Infrastructure/Persistence/Eloquent/Migrations');
     }
 }
