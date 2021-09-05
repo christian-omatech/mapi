@@ -12,9 +12,9 @@ final class ExtractInstanceController extends Controller
 {
     public function __invoke(ExtractInstanceRequest $request): JsonResponse
     {
-        $extraction = $this->queryBus->handle(
+        $extractions = $this->queryBus->handle(
             new ExtractInstanceCommand($request->validated()['query'])
         );
-        return new JsonResponse($extraction->toArray(), Response::HTTP_OK);
+        return new JsonResponse($extractions->toArray(), Response::HTTP_OK);
     }
 }
