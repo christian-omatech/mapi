@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use Omatech\Mapi\Shared\Infrastructure\Tactician\Bus;
 use Omatech\Mapi\Shared\Infrastructure\Tactician\CommandBus;
 use Omatech\Mapi\Shared\Infrastructure\Tactician\QueryBus;
 

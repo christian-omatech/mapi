@@ -3,7 +3,6 @@
 namespace Omatech\Mapi\Editora\Infrastructure\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Omatech\Mapi\Editora\Infrastructure\Http\Requests\CreateInstanceRequest;
 use Omatech\Mapi\Shared\Infrastructure\Http\Controllers\Controller;
 use Omatech\Mcore\Editora\Application\CreateInstance\CreateInstanceCommand;
