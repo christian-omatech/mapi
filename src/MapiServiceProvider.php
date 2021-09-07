@@ -9,7 +9,7 @@ use Omatech\Mapi\Shared\Infrastructure\Events\EventPublisher;
 use Omatech\Mapi\Shared\Infrastructure\Exceptions\ExceptionHandler;
 use Omatech\Mapi\Shared\Infrastructure\Providers\ConfigurationServiceProvider;
 use Omatech\Mapi\Shared\Infrastructure\Providers\EventServiceProvider;
-use Omatech\Mcore\Shared\Application\EventPublisherInterface;
+use Omatech\Mcore\Shared\Domain\Event\Contracts\EventPublisherInterface;
 
 final class MapiServiceProvider extends ServiceProvider
 {

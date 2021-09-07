@@ -6,9 +6,10 @@ use Omatech\Mcore\Shared\Domain\Event\Contracts\EventPublisherInterface;
 use Omatech\Mcore\Shared\Domain\Event\Event;
 use function Lambdish\Phunctional\each;
 
-class EventPublisher implements EventPublisherInterface
+final class EventPublisher implements EventPublisherInterface
 {
-    public function publish(array ...$events): void
+    /** @param array<Event> $events */
+    public function publish(array $events): void
     {
         each(fn (Event $event) => event($event), $events);
     }

@@ -17,6 +17,7 @@ final class UpdateInstanceTest extends TestCase
         });
         $this->mock(InstanceRepositoryInterface::class, function (MockInterface $mock) use ($instance) {
             $mock->shouldReceive('find')->once()->andReturn($instance);
+            $mock->shouldReceive('clone')->once()->andReturn($instance);
             $mock->shouldReceive('save')->once()->with($instance)->andReturn(null);
         });
 

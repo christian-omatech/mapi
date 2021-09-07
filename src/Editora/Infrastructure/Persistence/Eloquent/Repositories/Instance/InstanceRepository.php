@@ -4,12 +4,18 @@ namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\
 
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceRepositoryInterface;
 use Omatech\Mcore\Editora\Domain\Instance\Instance;
+use function DeepCopy\deep_copy;
 
 final class InstanceRepository extends BaseRepository implements InstanceRepositoryInterface
 {
     public function build(string $classKey): Instance
     {
         return $this->instanceBuilder->build($classKey);
+    }
+
+    public function clone(Instance $instance): Instance
+    {
+        return deep_copy($instance);
     }
 
     public function find(int $id): ?Instance
