@@ -4,8 +4,10 @@ namespace Omatech\Mapi\Editora;
 
 use Illuminate\Support\ServiceProvider;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\Contracts\StructureLoaderInterface;
+use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance\ExtractionRepository;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance\InstanceRepository;
 use Omatech\Mapi\Shared\Infrastructure\Http\Middleware\JsonRequest;
+use Omatech\Mcore\Editora\Domain\Instance\Contracts\ExtractionRepositoryInterface;
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceRepositoryInterface;
 
 final class EditoraServiceProvider extends ServiceProvider
@@ -13,6 +15,7 @@ final class EditoraServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(InstanceRepositoryInterface::class, InstanceRepository::class);
+        $this->app->bind(ExtractionRepositoryInterface::class, ExtractionRepository::class);
         $this->app->bind(StructureLoaderInterface::class, config('mage.editora.structure_loader'));
 
         $this->app['router']->aliasMiddleware('jsonRequest', JsonRequest::class);
