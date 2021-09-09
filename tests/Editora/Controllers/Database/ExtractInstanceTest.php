@@ -14,6 +14,100 @@ final class ExtractInstanceTest extends DatabaseTestCase
     use WithFaker;
 
     /** @test */
+    public function extractPaginatedInstancesSuccessfullyFromMysql(): void
+    {
+        $instance1 = InstanceDAO::create([
+            'uuid' => $this->faker->uuid(),
+            'class_key' => 'class-six',
+            'key' => 'instance-one',
+            'status' => 'in-revision',
+            'start_publishing_date' => '1989-03-08 09:00:00',
+            'end_publishing_date' => '2100-03-08 09:00:00',
+        ]);
+
+        $attribute1 = AttributeDAO::create([
+            'instance_id' => $instance1->id,
+            'parent_id' => null,
+            'key' => 'default-attribute',
+        ]);
+
+        $valueES1 = ValueDAO::create([
+            'attribute_id' => $attribute1->id,
+            'language' => 'es',
+            'value' => 'valor1',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
+
+        ValueDAO::create([
+            'attribute_id' => $attribute1->id,
+            'language' => 'en',
+            'value' => 'value1',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
+
+        $instance2 = InstanceDAO::create([
+            'uuid' => $this->faker->uuid(),
+            'class_key' => 'class-six',
+            'key' => 'instance-two',
+            'status' => 'in-revision',
+            'start_publishing_date' => '1989-03-08 09:00:00',
+            'end_publishing_date' => '2100-03-08 09:00:00',
+        ]);
+
+        $attribute2 = AttributeDAO::create([
+            'instance_id' => $instance2->id,
+            'parent_id' => null,
+            'key' => 'default-attribute',
+        ]);
+
+        $valueES2 = ValueDAO::create([
+            'attribute_id' => $attribute2->id,
+            'language' => 'es',
+            'value' => 'valor2',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
+
+        ValueDAO::create([
+            'attribute_id' => $attribute2->id,
+            'language' => 'en',
+            'value' => 'value2',
+            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
+        ]);
+
+        $response = $this->postJson('extract', [
+            'query' => '{
+                InstancesByClass(class: ClassSix, language: es)
+            }'
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertJson([
+            [
+                'key' => 'instance-one',
+                'attributes' => [
+                    [
+                        'id' => $valueES1->id,
+                        'key' => 'default-attribute',
+                        'value' => $valueES1->value,
+                        'attributes' => [],
+                    ]
+                ]
+            ], [
+                'key' => 'instance-two',
+                'attributes' => [
+                    [
+                        'id' => $valueES2->id,
+                        'key' => 'default-attribute',
+                        'value' => $valueES2->value,
+                        'attributes' => [],
+                    ]
+                ]
+            ]
+        ]);
+    }
+
+    /** @test */
     public function extractMultipleInstancesSuccessfullyFromMysql(): void
     {
         $instance1 = InstanceDAO::create([
@@ -76,8 +170,8 @@ final class ExtractInstanceTest extends DatabaseTestCase
 
         $response = $this->postJson('extract', [
             'query' => '{
-                InstanceByKey(filter: InstanceOne, preview: false, language: es)
-                InstanceByKey(filter:InstanceOne, preview: false, language: en)
+                InstanceByKey(key: InstanceOne, preview: false, language: es)
+                InstanceByKey(key:InstanceOne, preview: false, language: en)
             }'
         ]);
 
@@ -322,7 +416,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
 
         $response = $this->postJson('extract', [
             'query' => '{
-                InstanceByKey(filter: InstanceOne, preview: false, language: es) {
+                InstanceByKey(key: InstanceOne, preview: false, language: es) {
                     RelationKey1(limit: 1)
                     RelationKey2(limit: 2) {
                         RelationKey3(limit: 1)

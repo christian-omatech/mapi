@@ -9,18 +9,36 @@ final class ExtractionRepository extends InstanceRepository implements Extractio
 {
     public function instanceByKey(array $params): array
     {
-        $key = Utils::getInstance()->slug($params['filter']);
-        return $this->instance->where('key', $key)
+        $key = Utils::getInstance()->slug($params['key']);
+        $instances = $this->instance->where('key', $key)
             ->get()
             ->map(
                 fn ($instance) => $this
                     ->build($instance->class_key)
                     ->fill($this->instanceFromDB($instance))
             )->toArray();
+        return [
+            'pagination' => [],
+            'instances' => $instances,
+        ];
     }
 
     public function instancesByClass(array $params): array
     {
+        $class = Utils::getInstance()->slug($params['class']);
+        $total = $this->instance->where('class_key', $class)->count();
+        $pagination = new Pagination($total, $params['limit'], $params['page']);
+        $instances = $this->instance->where('class_key', $class)
+            ->limit($pagination->realLimit())->offset($pagination->offset())
+            ->get()->map(
+                fn ($instance) => $this
+                    ->build($instance->class_key)
+                    ->fill($this->instanceFromDB($instance))
+            )->toArray();
+        return [
+            'pagination' => $pagination->toArray(),
+            'instances' => $instances,
+        ];
     }
 
     public function findChildrenInstances(int $instanceId, string $key, array $params): array
