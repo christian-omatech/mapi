@@ -2,6 +2,7 @@
 
 namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance;
 
+use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceRepositoryInterface;
 use Omatech\Mcore\Editora\Domain\Instance\Instance;
 use function DeepCopy\deep_copy;
@@ -13,6 +14,12 @@ class InstanceRepository extends BaseRepository implements InstanceRepositoryInt
         return $this->instanceBuilder->build($classKey);
     }
 
+    protected function buildFill(InstanceDAO $model): Instance
+    {
+        return $this->build($model->class_key)
+            ->fill($this->instanceFromDB($model));
+    }
+
     public function clone(Instance $instance): Instance
     {
         return deep_copy($instance);
@@ -21,8 +28,7 @@ class InstanceRepository extends BaseRepository implements InstanceRepositoryInt
     public function find(int $id): ?Instance
     {
         $model = $this->instance->find($id);
-        return $this->build($model->class_key)
-            ->fill($this->instanceFromDB($model));
+        return $this->buildFill($model);
     }
 
     public function exists(string $key): bool

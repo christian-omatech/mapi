@@ -3,49 +3,33 @@
 namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance;
 
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\ExtractionRepositoryInterface;
-use Omatech\Mcore\Shared\Utils\Utils;
 
 final class ExtractionRepository extends InstanceRepository implements ExtractionRepositoryInterface
 {
-    public function instanceByKey(array $params): array
+    private function where(array $params)
     {
-        $key = Utils::getInstance()->slug($params['key']);
-        $instances = $this->instance->where('key', $key)
-            ->get()
-            ->map(
-                fn ($instance) => $this
-                    ->build($instance->class_key)
-                    ->fill($this->instanceFromDB($instance))
-            )->toArray();
-        return [
-            'pagination' => [],
-            'instances' => $instances,
-        ];
+        return $this->instance
+            ->where('class_key', $params['class'])
+            ->orWhere('key', $params['key']);
     }
 
-    public function instancesByClass(array $params): array
+    public function instancesBy(array $params): array
     {
-        $class = Utils::getInstance()->slug($params['class']);
-        $total = $this->instance->where('class_key', $class)->count();
-        $pagination = new Pagination($total, $params['limit'], $params['page']);
-        $instances = $this->instance->where('class_key', $class)
+        $pagination = new Pagination($params, $this->where($params)->count());
+        $instances = $this->where($params)
             ->limit($pagination->realLimit())->offset($pagination->offset())
-            ->get()->map(
-                fn ($instance) => $this
-                    ->build($instance->class_key)
-                    ->fill($this->instanceFromDB($instance))
-            )->toArray();
+            ->get()->map(fn ($instance) => $this->buildFill($instance))->toArray();
         return [
             'pagination' => $pagination->toArray(),
             'instances' => $instances,
         ];
     }
 
-    public function findChildrenInstances(int $instanceId, string $key, array $params): array
+    public function findChildrenInstances(int $instanceId, array $params): array
     {
         $instances = $this->instance->where('id', $instanceId)
-            ->with('relations', function ($q) use ($key, $params) {
-                $q->where('key', $key)
+            ->with('relations', function ($q) use ($params) {
+                $q->where('key', $params['class'])
                     ->limit($params['limit'])
                     ->with('child');
             })

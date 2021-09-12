@@ -76,7 +76,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
 
         $response = $this->postJson('extract', [
             'query' => '{
-                InstancesByClass(class: ClassSix, language: es)
+                ClassSix(language: es)
             }'
         ]);
 
@@ -170,8 +170,8 @@ final class ExtractInstanceTest extends DatabaseTestCase
 
         $response = $this->postJson('extract', [
             'query' => '{
-                InstanceByKey(key: InstanceOne, preview: false, language: es)
-                InstanceByKey(key:InstanceOne, preview: false, language: en)
+                class(key: InstanceOne, preview: false, language: es)
+                class(key:InstanceOne, preview: false, language: en)
             }'
         ]);
 
@@ -416,7 +416,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
 
         $response = $this->postJson('extract', [
             'query' => '{
-                InstanceByKey(key: InstanceOne, preview: false, language: es) {
+                class(key: InstanceOne, preview: false, language: es) {
                     RelationKey1(limit: 1)
                     RelationKey2(limit: 2) {
                         RelationKey3(limit: 1)
