@@ -1,4 +1,1 @@
 FROM mariadb:latest
-
-ENV MARIADB_ROOT_PASSWORD mapi
-ENV MYSQL_DATABASE mapi

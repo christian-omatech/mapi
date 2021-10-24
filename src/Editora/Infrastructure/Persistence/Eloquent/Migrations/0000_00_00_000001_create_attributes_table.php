@@ -32,6 +32,7 @@ class CreateAttributesTable extends Migration
                 ->onDelete('cascade');
 
             $table->unique(['instance_id', 'parent_id', 'key']);
+            $table->index(['instance_id', 'deleted_at']);
         });
     }
 

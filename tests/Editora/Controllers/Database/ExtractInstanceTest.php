@@ -2,16 +2,83 @@
 
 namespace Tests\Editora\Controllers\Database;
 
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\WithFaker;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
 use Tests\DatabaseTestCase;
+use Tests\Editora\Factories\AttributeFactory;
+use Tests\Editora\Factories\InstanceFactory;
+use Tests\Editora\Factories\RelationFactory;
+use Tests\Editora\Factories\ValueFactory;
 
 final class ExtractInstanceTest extends DatabaseTestCase
 {
     use WithFaker;
+
+    /** @test */
+    public function extractParentRelations(): void
+    {
+        $homees = InstanceFactory::new()
+            ->has(AttributeFactory::new()
+                ->state(['key' => 'nice-url'])
+                ->has(ValueFactory::new()
+                    ->state(['value' => 'home-es']), 
+                'values'),
+            'attributes')
+        ->createOne(['class_key' => 'home', 'key' => 'home-es']);        
+        
+        $country1 = InstanceFactory::new()
+            ->has(AttributeFactory::new()
+                ->state(['key' => 'name'])
+                ->has(ValueFactory::new()
+                    ->state(['value' => 'country-en']), 
+                'values'),
+            'attributes')
+        ->createOne(['class_key' => 'country', 'key' => 'country-en']);        
+        
+        $country2 = InstanceFactory::new()
+            ->has(AttributeFactory::new()
+                ->state(['key' => 'name'])
+                ->has(ValueFactory::new()
+                    ->state(['value' => 'country-es']), 
+                'values'),
+            'attributes')
+        ->createOne(['class_key' => 'country', 'key' => 'country-es']);
+
+        RelationDAO::create([
+            'key' => 'country-home',
+            'parent_instance_id' => $homees->id,
+            'child_instance_id' => $country1->id,
+            'order' => 0,
+        ]);              
+        
+        RelationDAO::create([
+            'key' => 'country-home',
+            'parent_instance_id' => $homees->id,
+            'child_instance_id' => $country2->id,
+            'order' => 1,
+        ]);            
+        
+        RelationDAO::create([
+            'key' => 'country-home',
+            'parent_instance_id' => $country1->id,
+            'child_instance_id' => $homees->id,
+            'order' => 0,
+        ]);        
+
+        $response = $this->postJson('extract', [
+            'query' => '{
+                Home(language: es) {
+                    CountryHome()
+                }
+            }'
+        ]);
+
+        $response->assertStatus(200);
+    }
 
     /** @test */
     public function extractPaginatedInstancesSuccessfullyFromMysql(): void
@@ -417,9 +484,9 @@ final class ExtractInstanceTest extends DatabaseTestCase
         $response = $this->postJson('extract', [
             'query' => '{
                 class(key: InstanceOne, preview: false, language: es) {
-                    RelationKey1(limit: 1)
-                    RelationKey2(limit: 2) {
-                        RelationKey3(limit: 1)
+                    RelationKey1(type:child, limit: 1)
+                    RelationKey2(type:child, limit: 2) {
+                        RelationKey3(type:child, limit: 1)
                     }
                 }
             }'

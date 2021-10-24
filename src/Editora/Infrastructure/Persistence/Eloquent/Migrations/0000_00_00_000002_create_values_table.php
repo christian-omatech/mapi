@@ -17,7 +17,7 @@ class CreateValuesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('attribute_id');
             $table->string('language')->index();
-            $table->text('value')->nullable();
+            $table->longText('value')->nullable();
             $table->json('extra_data')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -28,6 +28,7 @@ class CreateValuesTable extends Migration
                 ->onDelete('cascade');
 
             $table->unique(['attribute_id', 'language']);
+            $table->index(['attribute_id', 'deleted_at']);
         });
     }
 

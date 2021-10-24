@@ -21,7 +21,7 @@ final class InstanceDAO extends Model
         'end_publishing_date',
     ];
 
-    protected function attributes(): HasMany
+    public function attributes(): HasMany
     {
         return $this->hasMany(AttributeDAO::class, 'instance_id', 'id');
     }
@@ -29,5 +29,13 @@ final class InstanceDAO extends Model
     public function relations(): HasMany
     {
         return $this->hasMany(RelationDAO::class, 'parent_instance_id', 'id');
+    }
+
+    public function relatedInstances($classKey, $type, $pagination)
+    {
+        return $this->hasMany(RelationDAO::class, $type, 'id')
+            ->limit($pagination->realLimit())->offset($pagination->offset())
+            ->where('key', $classKey)
+            ->with('child');
     }
 }

@@ -13,7 +13,7 @@ return [
      */
     'editora' => [
         'languages' => ['es', 'en'],
-        'structure_path' => '',
+        'structure_path' => storage_path('structure.yml'),
         'structure_loader' => YamlStructureLoader::class,
     ],
 

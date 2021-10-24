@@ -1,21 +1,20 @@
 FROM php:8-cli-alpine
-COPY php/zzz-fpm.conf /usr/local/etc/php-fpm.d/zzz-fpm.conf
 
 ARG UID
 ARG GID
+
+COPY php/zzz-fpm.conf /usr/local/etc/php-fpm.d/zzz-fpm.conf
 
 RUN apk --update --no-cache add \
     curl \
     git
 
-RUN apk --update --no-cache add autoconf g++ make && \
-    pecl install -f xdebug && \
-    docker-php-ext-install pdo pdo_mysql && \
-    docker-php-ext-enable xdebug pdo_mysql && \
-    apk del --purge autoconf g++ make
-
-RUN echo "xdebug.mode=coverage" >> "$PHP_INI_DIR/php.ini-development"
+RUN apk --update --no-cache add --virtual deps $PHPIZE_DEPS
+RUN pecl install -f xdebug
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql
+RUN docker-php-ext-enable xdebug pdo_mysql
+RUN apk del --purge deps
 
 RUN addgroup -S -g ${GID} app \
     && adduser -S -D -u ${UID} -s /sbin/nologin -h /home/app -G app app \

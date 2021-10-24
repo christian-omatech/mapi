@@ -184,28 +184,28 @@ final class UpdateInstanceTest extends DatabaseTestCase
             'end_publishing_date' => null,
         ]);
 
-        RelationDAO::create([
+        $rel1 = RelationDAO::create([
             'key' => 'relation-key1',
             'parent_instance_id' => $instance1->id,
             'child_instance_id' => $instance2->id,
             'order' => 0,
         ]);
 
-        RelationDAO::create([
+        $rel2 = RelationDAO::create([
             'key' => 'relation-key1',
             'parent_instance_id' => $instance1->id,
             'child_instance_id' => $instance3->id,
             'order' => 1,
         ]);
 
-        RelationDAO::create([
+        $rel3 = RelationDAO::create([
             'key' => 'relation-key2',
             'parent_instance_id' => $instance1->id,
             'child_instance_id' => $instance4->id,
             'order' => 1,
         ]);
 
-        RelationDAO::create([
+        $rel4 = RelationDAO::create([
             'key' => 'relation-key2',
             'parent_instance_id' => $instance1->id,
             'child_instance_id' => $instance5->id,

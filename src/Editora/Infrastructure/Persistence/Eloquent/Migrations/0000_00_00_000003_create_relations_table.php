@@ -33,6 +33,8 @@ class CreateRelationsTable extends Migration
                 ->onDelete('cascade');
 
             $table->unique(['key', 'parent_instance_id', 'child_instance_id']);
+            $table->index(['parent_instance_id', 'key', 'deleted_at']);
+            $table->index(['child_instance_id', 'key', 'deleted_at']);
         });
     }
 

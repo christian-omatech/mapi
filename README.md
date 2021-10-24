@@ -1,24 +1,35 @@
 # MApi
-#### Build:
-`make init`
 
-#### Delete MariaDB container:
-`make down`
+## Requeriments
 
-#### Clear docker (destructive)
-`make clear`
+- Docker
+- Task (https://taskfile.dev/#/)
+
+---
+
+#### Build
+`task build`
+
+#### Remove containers
+`task down`
+
+#### Remove containers & images
+`task clear`
+
+#### Composer
+`task composer -- params`
 
 #### Install dependencies
-`make install`
+`task install`
 
 #### Update dependencies
-`make update`
+`task update`
 
 #### Composer dump
-`make dump`
+`task dump`
 
 #### Code analysis:
-`make analyse`
+`task analyse`
 
 #### Tests:
-`make test`
+`task test`

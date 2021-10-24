@@ -23,6 +23,8 @@ class CreateInstancesTable extends Migration
             $table->dateTime('end_publishing_date')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['id', 'deleted_at']);
         });
     }
 
