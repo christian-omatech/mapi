@@ -60,5 +60,6 @@
                 "Omatech\\Mapi\\MapiServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

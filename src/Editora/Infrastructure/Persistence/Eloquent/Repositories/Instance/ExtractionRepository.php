@@ -23,7 +23,8 @@ final class ExtractionRepository extends InstanceRepository implements Extractio
     {
         $type = ['child' => 'parent_instance_id', 'parent' => 'child_instance_id'][$params['type']];
         $pagination = new Pagination(
-            $params, $this->countRelations($instanceId, $params['class'], $type)
+            $params,
+            $this->countRelations($instanceId, $params['class'], $type)
         );
         $relations = $this->instance
             ->find($instanceId)
@@ -35,7 +36,8 @@ final class ExtractionRepository extends InstanceRepository implements Extractio
     private function where(array $params)
     {
         return $this->instance
-            ->where('class_key', $params['class'])
+            ->where('id', $params['id'])
+            ->orWwhere('class_key', $params['class'])
             ->orWhere('key', $params['key']);
     }
 

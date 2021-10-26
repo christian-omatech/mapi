@@ -179,7 +179,7 @@ abstract class BaseRepository
                 'id' => $value->id,
                 'language' => $value->language,
                 'value' => $value->value,
-                'extraData' => json_decode($value->extra_data, true),
+                'extraData' => json_decode($value->extra_data ?? '', true),
             ];
         }, $values);
     }

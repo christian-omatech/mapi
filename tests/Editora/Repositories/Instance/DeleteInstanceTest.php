@@ -10,6 +10,7 @@ use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance\InstanceRepository;
+use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceCacheInterface;
 use Tests\DatabaseTestCase;
 
 final class DeleteInstanceTest extends DatabaseTestCase
@@ -192,7 +193,12 @@ final class DeleteInstanceTest extends DatabaseTestCase
                 ],
             ],
         ])->once();
-        $repository = new InstanceRepository(new InstanceBuilder($structureLoader));
+
+        $instanceCache = $this->mock(InstanceCacheInterface::class);
+        $instanceCache->shouldReceive('get')->with('class-one')->andReturn(null);
+        $instanceCache->shouldReceive('put')->andReturn(null);
+
+        $repository = new InstanceRepository(new InstanceBuilder($structureLoader, $instanceCache));
         $instance = $repository->find($instance1->id);
         $repository->delete($instance);
 
