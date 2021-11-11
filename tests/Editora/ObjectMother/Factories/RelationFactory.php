@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Editora\Factories;
+namespace Tests\Editora\ObjectMother\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;

@@ -18,12 +18,14 @@ services:
       - mariadb-socket:/var/run/mysqld
       - ../:/app
   mariadb:
+    container_name: mapi-mariadb
     environment:
       - MARIADB_ROOT_PASSWORD=mapi
       - MYSQL_DATABASE=mapi
     build:
       context: "."
       dockerfile: "mariadb/Dockerfile"
+    image: mapi_mariadb
     healthcheck:
       test: "/usr/bin/mysql -uroot -pmapi -e 'SHOW DATABASES;'"
       timeout: 10s

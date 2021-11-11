@@ -1,0 +1,122 @@
+classes:
+  News:
+    attributes:
+      Title:
+        values:
+          rules:
+            required: true
+      Description:
+      NiceUrl:
+        values:
+          rules:
+            unique:
+              class: Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Attribute\AttributeRepository
+    relations:
+      NewsPhotos:
+        - Photos
+  Articles:
+    attributes:
+      Title:
+      Author:
+      Page:
+  Pictures:
+    attributes:
+      Url:
+  Photos:
+    attributes:
+      Url:
+    relations:
+      PhotosLocations:
+        - Locations
+        - Coordinates
+  Locations:
+    attributes:
+      Country:
+  Coordinates:
+    attributes:
+      Latitude:
+      Longitude:
+  Books:
+    attributes:
+      Title:
+      ISBN:
+        values:
+          languages:
+            '+':
+      Synopsis:
+        values:
+          languages:
+            '+':
+      Picture:
+        attributes:
+          Alt:
+      Price:
+        values:
+          languages:
+            '*':
+    relations:
+      Articles:
+        - Articles
+      Photos:
+        - Photos
+        - Pictures
+  VideoGames:
+    attributes:
+      Title:
+        values:
+          type: Value
+        attributes:
+          SubTitle:
+            values:
+              type: Value
+      Synopsis:
+        type: textarea
+        values:
+          type: JsonValue
+          rules:
+            required: true
+          configuration:
+            cols: 10
+            rows: 10
+      ReleaseDate:
+        values:
+          type: DateValue
+          rules:
+            required: true
+          configuration:
+            cols: 30
+            rows: 30
+          languages:
+            '+':
+            es:
+              rules:
+                required: true
+              configuration:
+                cols: 10
+                rows: 10
+            en:
+              rules:
+                required: false
+              configuration:
+                cols: 20
+                rows: 20
+      Code:
+        type: lookup
+        values:
+          languages:
+            '*':
+              type: LookupValue
+              rules:
+                required: false
+              configuration:
+                options:
+                  - pc-code
+                  - playstation-code
+                  - xbox-code
+                  - switch-code
+    relations:
+      Platforms:
+        - Platform
+      Reviews:
+        - Articles
+        - Blogs

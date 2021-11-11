@@ -19,25 +19,28 @@ final class ExtractionRepository extends InstanceRepository implements Extractio
         return new Results($instances, $pagination);
     }
 
-    public function findRelatedInstances(int $instanceId, array $params): Results
+    public function findRelatedInstances(string $instanceUuid, array $params): Results
     {
         $type = ['child' => 'parent_instance_id', 'parent' => 'child_instance_id'][$params['type']];
+        $instance = $this->instance
+            ->where('uuid', $instanceUuid)
+            ->first();
+
         $pagination = new Pagination(
             $params,
-            $this->countRelations($instanceId, $params['class'], $type)
+            $this->countRelations($instance->id, $params['key'], $type)
         );
-        $relations = $this->instance
-            ->find($instanceId)
-            ->relatedInstances($params['class'], $type, $pagination)
+
+        $relations = $instance->relatedInstances($params['key'], $type, $pagination)
             ->get();
+
         return new Results($this->parseRelation($relations), $pagination);
     }
 
     private function where(array $params)
     {
         return $this->instance
-            ->where('id', $params['id'])
-            ->orWwhere('class_key', $params['class'])
+            ->orWhere('class_key', $params['class'])
             ->orWhere('key', $params['key']);
     }
 

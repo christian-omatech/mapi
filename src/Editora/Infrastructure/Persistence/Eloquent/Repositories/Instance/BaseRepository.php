@@ -40,7 +40,7 @@ abstract class BaseRepository
     protected function instanceToDB(Instance $instance): void
     {
         $instanceDAO = $this->instance->updateOrCreate([
-            'id' => $instance->id(),
+            'uuid' => $instance->uuid(),
             'class_key' => $instance->data()['classKey'],
         ], [
             'key' => $instance->data()['key'],
@@ -75,7 +75,7 @@ abstract class BaseRepository
     {
         each(function (BaseValue $value) use ($attributeDAO) {
             $this->value->updateOrCreate([
-                'id' => $value->id(),
+                'uuid' => $value->uuid(),
                 'attribute_id' => $attributeDAO->id,
                 'language' => $value->language(),
             ], [
@@ -90,11 +90,11 @@ abstract class BaseRepository
         InstanceDAO $instanceDAO
     ): void {
         each(function (InstanceRelation $relation) use ($instanceDAO) {
-            each(function (int $instanceId, int $index) use ($relation, $instanceDAO) {
+            each(function (string $instanceUuid, int $index) use ($relation, $instanceDAO) {
                 $this->relation->updateOrCreate([
                     'key' => $relation->key(),
                     'parent_instance_id' => $instanceDAO->id,
-                    'child_instance_id' => $instanceId,
+                    'child_instance_id' => $instanceUuid,
                 ], [
                     'order' => $index,
                 ]);
@@ -107,18 +107,17 @@ abstract class BaseRepository
         InstanceDAO $instanceDAO,
         InstanceRelationCollection $expectedRelations
     ): void {
-        $dbRelations = $instanceDAO->relations->filter(
+        $instanceDAO->relations->filter(
             function (RelationDAO $relation) use ($expectedRelations) {
                 $expectedRelation = search(
-                    function (InstanceRelation $expectedRelation) use ($relation) {
+                    function (InstanceRelation $expectedRelation) use ($relation): bool {
                         return $relation->key === $expectedRelation->key();
                     },
                     $expectedRelations->get()
                 );
                 return ! $expectedRelation?->instanceExists($relation->child_instance_id);
             }
-        );
-        $dbRelations->each(fn (RelationDAO $relation) => $relation->forceDelete());
+        )->each(fn (RelationDAO $relation) => $relation->forceDelete());
     }
 
     protected function instanceFromDB(InstanceDAO $instanceDAO): array
@@ -126,7 +125,7 @@ abstract class BaseRepository
         return [
             'metadata' => [
                 'key' => $instanceDAO->key,
-                'id' => $instanceDAO->id,
+                'uuid' => $instanceDAO->uuid,
                 'publication' => [
                     'status' => $instanceDAO->status,
                     'startPublishingDate' => $instanceDAO->start_publishing_date,
@@ -176,7 +175,7 @@ abstract class BaseRepository
     {
         return map(function (ValueDAO $value): array {
             return [
-                'id' => $value->id,
+                'uuid' => $value->uuid,
                 'language' => $value->language,
                 'value' => $value->value,
                 'extraData' => json_decode($value->extra_data ?? '', true),
@@ -187,7 +186,7 @@ abstract class BaseRepository
     private function relationsFromDB(Collection $relations): array
     {
         return reduce(function (array $acc, RelationDAO $relation): array {
-            $acc[$relation->key][$relation->child->id] = $relation->child->class_key;
+            $acc[$relation->key][$relation->child->uuid] = $relation->child->class_key;
             return $acc;
         }, $relations->sortBy('order'), []);
     }

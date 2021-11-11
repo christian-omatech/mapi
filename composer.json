@@ -18,7 +18,7 @@
         "php": "^8.0",
         "illuminate/support": "^8.0",
         "league/tactician": "^1.1",
-        "omatech/mcore": "dev-edge"
+        "omatech/mcore": "dev-extractions"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
@@ -43,7 +43,7 @@
         }
     },
     "scripts": {
-        "phpunit": "vendor/bin/phpunit",
+        "phpunit": "vendor/bin/phpunit --filter=EditoraControllerTest",
         "infection": "vendor/bin/infection -j8 --coverage=build --skip-initial-tests",
         "test": [
             "@phpunit",
@@ -60,6 +60,5 @@
                 "Omatech\\Mapi\\MapiServiceProvider"
             ]
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

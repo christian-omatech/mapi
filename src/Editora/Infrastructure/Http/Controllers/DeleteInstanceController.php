@@ -12,7 +12,7 @@ final class DeleteInstanceController extends Controller
 {
     public function __invoke(DeleteInstanceRequest $request): JsonResponse
     {
-        $this->commandBus->handle(new DeleteInstanceCommand($request->validated()['id']));
+        $this->commandBus->handle(new DeleteInstanceCommand($request->validated()['uuid']));
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }

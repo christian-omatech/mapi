@@ -486,28 +486,28 @@ final class UpdateInstanceTest extends DatabaseTestCase
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key1',
-            'parent_instance_id' => $instance->id(),
+            'parent_instance_id' => $instance->uuid(),
             'child_instance_id' => $instance2->id,
             'order' => 1,
         ]);
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key1',
-            'parent_instance_id' => $instance->id(),
+            'parent_instance_id' => $instance->uuid(),
             'child_instance_id' => $instance3->id,
             'order' => 0,
         ]);
 
         $this->assertDatabaseMissing('mage_relations', [
             'key' => 'relation-key2',
-            'parent_instance_id' => $instance->id(),
+            'parent_instance_id' => $instance->uuid(),
             'child_instance_id' => $instance4->id,
             'order' => 1,
         ]);
 
         $this->assertDatabaseMissing('mage_relations', [
             'key' => 'relation-key2',
-            'parent_instance_id' => $instance->id(),
+            'parent_instance_id' => $instance->uuid(),
             'child_instance_id' => $instance5->id,
             'order' => 0,
         ]);

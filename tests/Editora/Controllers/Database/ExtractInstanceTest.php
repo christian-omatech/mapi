@@ -9,10 +9,6 @@ use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
 use Tests\DatabaseTestCase;
-use Tests\Editora\Factories\AttributeFactory;
-use Tests\Editora\Factories\InstanceFactory;
-use Tests\Editora\Factories\RelationFactory;
-use Tests\Editora\Factories\ValueFactory;
 
 final class ExtractInstanceTest extends DatabaseTestCase
 {
@@ -73,6 +69,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
             'query' => '{
                 Home(language: es) {
                     CountryHome()
+                    CountryHome(type: parent)
                 }
             }'
         ]);
@@ -99,6 +96,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES1 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute1->id,
             'language' => 'es',
             'value' => 'valor1',
@@ -106,6 +104,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute1->id,
             'language' => 'en',
             'value' => 'value1',
@@ -128,6 +127,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES2 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute2->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -135,6 +135,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute2->id,
             'language' => 'en',
             'value' => 'value2',
@@ -193,6 +194,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES1 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute1->id,
             'language' => 'es',
             'value' => 'valor1',
@@ -200,6 +202,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute1->id,
             'language' => 'en',
             'value' => 'value1',
@@ -222,6 +225,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES2 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute2->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -229,6 +233,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute2->id,
             'language' => 'en',
             'value' => 'value2',
@@ -237,8 +242,8 @@ final class ExtractInstanceTest extends DatabaseTestCase
 
         $response = $this->postJson('extract', [
             'query' => '{
-                class(key: InstanceOne, preview: false, language: es)
-                class(key:InstanceOne, preview: false, language: en)
+                instances(key: InstanceOne, preview: false, language: es)
+                instances(key:InstanceOne, preview: false, language: en)
             }'
         ]);
 
@@ -288,6 +293,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES1 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute1->id,
             'language' => 'es',
             'value' => 'valor1',
@@ -295,6 +301,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute1->id,
             'language' => 'en',
             'value' => 'value1',
@@ -317,6 +324,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES2 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute2->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -324,6 +332,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute2->id,
             'language' => 'en',
             'value' => 'value2',
@@ -346,6 +355,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES3 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute3->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -353,6 +363,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute3->id,
             'language' => 'en',
             'value' => 'value2',
@@ -375,6 +386,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES4 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute4->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -382,6 +394,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute4->id,
             'language' => 'en',
             'value' => 'value2',
@@ -404,6 +417,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES5 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute5->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -411,6 +425,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute5->id,
             'language' => 'en',
             'value' => 'value2',
@@ -433,6 +448,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         $valueES6 = ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute6->id,
             'language' => 'es',
             'value' => 'valor2',
@@ -440,6 +456,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
         ]);
 
         ValueDAO::create([
+            'uuid' => $this->faker->uuid(),
             'attribute_id' => $attribute6->id,
             'language' => 'en',
             'value' => 'value2',
@@ -483,7 +500,7 @@ final class ExtractInstanceTest extends DatabaseTestCase
 
         $response = $this->postJson('extract', [
             'query' => '{
-                class(key: InstanceOne, preview: false, language: es) {
+                instances(key: InstanceOne, preview: false, language: es) {
                     RelationKey1(type:child, limit: 1)
                     RelationKey2(type:child, limit: 2) {
                         RelationKey3(type:child, limit: 1)

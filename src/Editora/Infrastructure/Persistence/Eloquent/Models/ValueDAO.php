@@ -12,6 +12,7 @@ final class ValueDAO extends Model
     protected $table = 'mage_values';
 
     protected $fillable = [
+        'uuid',
         'attribute_id',
         'language',
         'value',

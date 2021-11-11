@@ -43,7 +43,7 @@ final class ReadInstanceTest extends DatabaseTestCase
             'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
         ]);
 
-        $response = $this->getJson($instance->id);
+        $response = $this->getJson($instance->uuid);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -52,7 +52,7 @@ final class ReadInstanceTest extends DatabaseTestCase
                 'relations' => [],
             ],
             'metadata' => [
-                'id' => $instance->id,
+                'uuid' => $instance->uuid,
                 'key' => $instance->key,
                 'publication' => [
                     'status' => $instance->status,

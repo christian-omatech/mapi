@@ -3,6 +3,7 @@
 namespace Omatech\Mapi\Editora\Infrastructure\Instance\Validator;
 
 use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\InstanceBuilder;
 use Omatech\Mcore\Editora\Domain\Attribute\Attribute;
 use Omatech\Mcore\Editora\Domain\Value\BaseValue;
@@ -19,11 +20,6 @@ final class EditoraValidator
         $this->builder = $builder;
     }
 
-    public function update(array $input): array
-    {
-        return $this->create($input) + ['id' => 'required|integer'];
-    }
-
     public function create(array $input): array
     {
         $instance = $this->builder->build($input['classKey'] ?? '');
@@ -31,8 +27,8 @@ final class EditoraValidator
             $instance->attributes()->get(),
             $input['attributes'] ?? []
         );
-
         return [
+            'uuid' => 'required|string|uuid',
             'classKey' => 'required|string',
             'key' => 'required|string',
             'status' => 'required|string',
@@ -64,7 +60,7 @@ final class EditoraValidator
     {
         return reduce(function (array $acc, BaseValue $value) use ($input): array {
             $input = search(fn ($input) => $input['language'] === $value->language(), $input);
-            $value->fill(['id' => $input['id'] ?? null, 'value' => 'noValue']);
+            $value->fill(['uuid' => $input['uuid'] ?? null, 'value' => 'noValue']);
             $acc[] = $this->parseRules($value);
             return $acc;
         }, $values, []);
@@ -77,16 +73,16 @@ final class EditoraValidator
         }, $value->rules(), []);
 
         return [
-            'language' => search(static fn (string $rule) => $rule === 'required', $rules, ''),
+            'language' => search(static fn (mixed $rule) => $rule === 'required', $rules, ''),
             'value' => implode('|', $rules),
         ];
     }
 
-    private function matchRule(string $rule, mixed $conditions, BaseValue $baseValue): string
+    private function matchRule(string $rule, mixed $conditions, BaseValue $baseValue): mixed
     {
         $rules = [
             'required' => 'required',
-            'unique' => "unique:mage_values,value,{$baseValue->id()}",
+            'unique' => Rule::unique('mage_values', 'value')->ignore($baseValue->uuid(), 'uuid')
         ];
         return $rules[$rule];
     }

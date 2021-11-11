@@ -24,14 +24,14 @@ final class DeleteInstanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer',
+            'uuid' => 'required|string|uuid',
         ];
     }
 
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id' => (int) $this->route()->parameter('id'),
+            'uuid' => (string) $this->route()->parameter('uuid'),
         ]);
     }
 }

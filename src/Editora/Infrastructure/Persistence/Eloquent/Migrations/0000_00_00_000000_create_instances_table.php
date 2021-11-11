@@ -15,7 +15,7 @@ class CreateInstancesTable extends Migration
     {
         Schema::create('mage_instances', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('uuid')->nullable()->unique();
+            $table->uuid('uuid')->unique();
             $table->string('class_key')->index();
             $table->string('key')->unique();
             $table->string('status')->index();

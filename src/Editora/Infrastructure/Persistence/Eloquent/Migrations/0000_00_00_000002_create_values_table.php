@@ -15,6 +15,7 @@ class CreateValuesTable extends Migration
     {
         Schema::create('mage_values', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('attribute_id');
             $table->string('language')->index();
             $table->longText('value')->nullable();

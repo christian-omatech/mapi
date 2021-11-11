@@ -2,108 +2,136 @@
 
 namespace Tests\Editora\Controllers\Database;
 
-use Illuminate\Foundation\Testing\WithFaker;
-use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
-use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
-use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
-use Tests\DatabaseTestCase;
+use Tests\Editora\EditoraTestCase;
+use Tests\Editora\ObjectMother\NewsMother;
 
-final class CreateInstanceTest extends DatabaseTestCase
+final class CreateInstanceTest extends EditoraTestCase
 {
-    use WithFaker;
-
     /** @test */
     public function createInstanceSuccessfullyInMysql(): void
     {
-        $response = $this->postJson('/', [
-            'classKey' => 'ClassOne',
-            'key' => 'instance-test',
+        $this->postJson('/', [
+            'uuid' => $this->faker->uuid(),
+            'classKey' => 'News',
+            'key' => 'news-instance',
             'status' => 'pending',
             'startPublishingDate' => '1989-03-08 09:00:00',
             'attributes' => [
-                'all-languages-attribute' => [
+                'title' => [
                     'values' => [
                         [
+                            'uuid' => $this->faker->uuid(),
                             'language' => 'es',
-                            'value' => 'test',
-                        ],[
+                            'value' => 'title-es',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
                             'language' => 'en',
-                            'value' => 'test',
+                            'value' => 'title-en',
+                        ],
+                    ],
+                ],
+                'description' => [
+                    'values' => [
+                        [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => 'description-es',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => 'description-en',
+                        ]
+                    ]
+                ],
+                'nice-url' => [
+                    'values' => [
+                        [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => '/es/soy-una-url',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => '/en/soy-una-url',
                         ],
                     ],
                 ],
             ],
-        ]);
+        ])->assertStatus(204);
 
         $this->assertDatabaseHas('mage_instances', [
-            'uuid' => null,
-            'class_key' => 'class-one',
-            'key' => 'instance-test',
+            'class_key' => 'news',
+            'key' => 'news-instance',
             'status' => 'pending',
             'start_publishing_date' => '1989-03-08 09:00:00',
             'end_publishing_date' => null,
-        ]);
-
-        $this->assertDatabaseHas('mage_attributes', [
-            'key' => 'all-languages-attribute',
-        ]);
-        $this->assertDatabaseHas('mage_values', [
+        ])->assertDatabaseHas('mage_attributes', [
+            'key' => 'title',
+        ])->assertDatabaseHas('mage_attributes', [
+            'key' => 'description',
+        ])->assertDatabaseHas('mage_values', [
             'language' => 'es',
-            'value' => 'test',
-        ]);
-        $this->assertDatabaseHas('mage_values', [
+            'value' => 'title-es',
+        ])->assertDatabaseHas('mage_values', [
             'language' => 'en',
-            'value' => 'test',
+            'value' => 'title-en',
+        ])->assertDatabaseHas('mage_values', [
+            'language' => 'es',
+            'value' => 'description-es',
+        ])->assertDatabaseHas('mage_values', [
+            'language' => 'en',
+            'value' => 'description-en',
         ]);
-        $response->assertStatus(204);
     }
 
     /** @test */
-    public function reCreateInstanceFail(): void
+    public function creatingExistingInstanceKeyFail(): void
     {
-        $instance1 = InstanceDAO::create([
-            'uuid' => $this->faker->uuid(),
-            'class_key' => 'class-one',
-            'key' => 'instance-one',
-            'status' => 'in-revision',
-            'start_publishing_date' => '1989-03-08 09:00:00',
-            'end_publishing_date' => '2100-03-08 09:00:00',
-        ]);
-
-        $attribute1 = AttributeDAO::create([
-            'instance_id' => $instance1->id,
-            'parent_id' => null,
-            'key' => 'default-attribute',
-        ]);
-
-        $value1ES = ValueDAO::create([
-            'attribute_id' => $attribute1->id,
-            'language' => 'es',
-            'value' => 'valor1',
-            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
-        ]);
-
-        $value1EN = ValueDAO::create([
-            'attribute_id' => $attribute1->id,
-            'language' => 'en',
-            'value' => 'value1',
-            'extra_data' => json_encode([], JSON_THROW_ON_ERROR),
-        ]);
+        $new = (new NewsMother())->database();
 
         $response = $this->postJson('/', [
-            'classKey' => $instance1->class_key,
-            'key' => $instance1->key,
+            'uuid' => $new->uuid,
+            'classKey' => $new->class_key,
+            'key' => $new->key,
             'status' => 'pending',
             'startPublishingDate' => '1989-03-08 09:00:00',
             'attributes' => [
-                'default-attribute' => [
+                'title' => [
                     'values' => [
                         [
-                            'language' => $value1ES->language,
-                            'value' => $value1ES->value,
-                        ],[
-                            'language' => $value1EN->language,
-                            'value' => $value1EN->value,
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => 'title-es',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => 'title-en',
+                        ],
+                    ],
+                ],
+                'description' => [
+                    'values' => [
+                        [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => 'description-es',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => 'description-en',
+                        ]
+                    ]
+                ],
+                'nice-url' => [
+                    'values' => [
+                        [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => '/es/soy-otra-url',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => '/en/soy-otra-url',
                         ],
                     ],
                 ],
@@ -115,20 +143,51 @@ final class CreateInstanceTest extends DatabaseTestCase
     }
 
     /** @test */
-    public function uniqueRule(): void
+    public function uniqueValueOnDatabase(): void
     {
+        (new NewsMother())->database();
+
         $response = $this->postJson('/', [
-            'classKey' => 'ClassOne',
-            'key' => 'class-one',
+            'uuid' => $this->faker->uuid(),
+            'classKey' => 'news',
+            'key' => 'new-instance-2',
             'status' => 'pending',
             'startPublishingDate' => '1989-03-08 09:00:00',
             'attributes' => [
+                'title' => [
+                    'values' => [
+                        [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => 'title-es',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => 'title-en',
+                        ],
+                    ],
+                ],
+                'description' => [
+                    'values' => [
+                        [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => 'description-es',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => 'description-en',
+                        ]
+                    ]
+                ],
                 'nice-url' => [
                     'values' => [
                         [
+                            'uuid' => $this->faker->uuid(),
                             'language' => 'es',
                             'value' => '/es/soy-una-url',
-                        ],[
+                        ], [
+                            'uuid' => $this->faker->uuid(),
                             'language' => 'en',
                             'value' => '/en/soy-una-url',
                         ],
@@ -136,26 +195,76 @@ final class CreateInstanceTest extends DatabaseTestCase
                 ],
             ],
         ]);
-        $response->assertStatus(204);
+        $response->assertStatus(422);
+    }
 
-        $response = $this->postJson('/', [
-            'classKey' => 'ClassTwo',
-            'key' => 'class-two',
+    /** @test */
+    public function failedValidationOnCreateInstance(): void
+    {
+        $response = $this->postJson('/', []);
+        $response->assertJson([
+            'status' => '422',
+            'error' => '',
+            'message' => 'Class  not found.',
+        ]);
+        $response->assertStatus(422);
+    }
+
+    /** @test */
+    public function invalidHeadersOnPostCall(): void
+    {
+        $response = $this->post('/', [
+            'uuid' => $this->faker->uuid(),
+            'classKey' => 'news',
+            'key' => 'new-instance-2',
             'status' => 'pending',
             'startPublishingDate' => '1989-03-08 09:00:00',
             'attributes' => [
+                'title' => [
+                    'values' => [
+                        [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => 'title-es',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => 'title-en',
+                        ],
+                    ],
+                ],
+                'description' => [
+                    'values' => [
+                        [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'es',
+                            'value' => 'description-es',
+                        ], [
+                            'uuid' => $this->faker->uuid(),
+                            'language' => 'en',
+                            'value' => 'description-en',
+                        ]
+                    ]
+                ],
                 'nice-url' => [
                     'values' => [
                         [
+                            'uuid' => $this->faker->uuid(),
                             'language' => 'es',
                             'value' => '/es/soy-una-url',
-                        ],[
+                        ], [
+                            'uuid' => $this->faker->uuid(),
                             'language' => 'en',
                             'value' => '/en/soy-una-url',
                         ],
                     ],
                 ],
             ],
+        ]);
+        $response->assertJson([
+            'status' => '422',
+            'error' => '',
+            'message' => 'Class  not found.',
         ]);
         $response->assertStatus(422);
     }

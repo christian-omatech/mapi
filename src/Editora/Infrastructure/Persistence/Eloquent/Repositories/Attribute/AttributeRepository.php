@@ -14,7 +14,7 @@ final class AttributeRepository implements UniqueValueInterface
             ->whereHas('values', function ($q) use ($value) {
                 $q->where('value', $value->value())
                     ->whereNotNull('value')
-                    ->where('id', '<>', $value->id());
+                    ->where('uuid', '<>', $value->uuid());
             })->exists();
     }
 }

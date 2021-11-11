@@ -8,9 +8,9 @@ use Omatech\Mapi\Editora\Infrastructure\Instance\Builder\InstanceBuilder;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Repositories\Instance\InstanceRepository;
 use Omatech\Mcore\Editora\Domain\Instance\Contracts\InstanceCacheInterface;
-use Tests\DatabaseTestCase;
+use Tests\Editora\EditoraTestCase;
 
-final class CreateInstanceTest extends DatabaseTestCase
+final class CreateInstanceTest extends EditoraTestCase
 {
     use WithFaker;
 
@@ -192,7 +192,7 @@ final class CreateInstanceTest extends DatabaseTestCase
         $repository->save($instance);
 
         $this->assertDatabaseHas('mage_instances', [
-            'id' => $instance->id(),
+            'id' => $instance->uuid(),
             'class_key' => 'class-one',
             'key' => 'instance-one',
             'status' => 'in-revision',
@@ -201,32 +201,32 @@ final class CreateInstanceTest extends DatabaseTestCase
         ]);
 
         $this->assertDatabaseHas('mage_attributes', [
-            'instance_id' => $instance->id(),
+            'instance_id' => $instance->uuid(),
             'key' => 'default-attribute',
         ]);
 
         $this->assertDatabaseHas('mage_attributes', [
-            'instance_id' => $instance->id(),
+            'instance_id' => $instance->uuid(),
             'key' => 'default-sub-attribute',
         ]);
 
         $this->assertDatabaseHas('mage_attributes', [
-            'instance_id' => $instance->id(),
+            'instance_id' => $instance->uuid(),
             'key' => 'default-sub-sub-attribute',
         ]);
 
         $this->assertDatabaseHas('mage_attributes', [
-            'instance_id' => $instance->id(),
+            'instance_id' => $instance->uuid(),
             'key' => 'another-default-attribute',
         ]);
 
         $this->assertDatabaseHas('mage_attributes', [
-            'instance_id' => $instance->id(),
+            'instance_id' => $instance->uuid(),
             'key' => 'another-default-sub-attribute',
         ]);
 
         $this->assertDatabaseHas('mage_attributes', [
-            'instance_id' => $instance->id(),
+            'instance_id' => $instance->uuid(),
             'key' => 'another-default-sub-sub-attribute',
         ]);
 
@@ -292,28 +292,28 @@ final class CreateInstanceTest extends DatabaseTestCase
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key1',
-            'parent_instance_id' => $instance->id(),
+            'parent_instance_id' => $instance->uuid(),
             'child_instance_id' => $instance2->id,
             'order' => 0,
         ]);
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key1',
-            'parent_instance_id' => $instance->id(),
+            'parent_instance_id' => $instance->uuid(),
             'child_instance_id' => $instance3->id,
             'order' => 1,
         ]);
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key2',
-            'parent_instance_id' => $instance->id(),
+            'parent_instance_id' => $instance->uuid(),
             'child_instance_id' => $instance4->id,
             'order' => 0,
         ]);
 
         $this->assertDatabaseHas('mage_relations', [
             'key' => 'relation-key2',
-            'parent_instance_id' => $instance->id(),
+            'parent_instance_id' => $instance->uuid(),
             'child_instance_id' => $instance5->id,
             'order' => 1,
         ]);

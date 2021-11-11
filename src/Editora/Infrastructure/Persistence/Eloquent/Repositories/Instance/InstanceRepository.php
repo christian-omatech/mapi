@@ -25,9 +25,9 @@ class InstanceRepository extends BaseRepository implements InstanceRepositoryInt
         return deep_copy($instance);
     }
 
-    public function find(int $id): ?Instance
+    public function find(string $uuid): ?Instance
     {
-        $model = $this->instance->find($id);
+        $model = $this->instance->where('uuid', $uuid)->first();
         return $this->buildFill($model);
     }
 
@@ -36,16 +36,17 @@ class InstanceRepository extends BaseRepository implements InstanceRepositoryInt
         return $this->instance->where('key', $key)->exists();
     }
 
-    public function classKey(int $id): ?string
+    public function classKey(string $uuid): ?string
     {
         return $this->instance->select(['class_key'])
-            ->find($id)
+            ->where('uuid', $uuid)
+            ->first()
             ?->class_key;
     }
 
     public function delete(Instance $instance): void
     {
-        $this->instance->find($instance->id())->forceDelete();
+        $this->instance->find($instance->uuid())->forceDelete();
     }
 
     public function save(Instance $instance): void

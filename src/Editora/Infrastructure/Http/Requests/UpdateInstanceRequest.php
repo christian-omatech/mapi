@@ -16,13 +16,13 @@ final class UpdateInstanceRequest extends FormRequest
 
     public function rules(): array
     {
-        return $this->editoraValidator->update($this->input());
+        return $this->editoraValidator->create($this->input());
     }
 
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id' => (int) $this->route()->parameter('id'),
+            'uuid' => (string) $this->route()->parameter('uuid'),
         ]);
     }
 }
