@@ -82,7 +82,7 @@ final class EditoraValidator
     {
         $rules = [
             'required' => 'required',
-            'unique' => Rule::unique('mage_values', 'value')->ignore($baseValue->uuid(), 'uuid')
+            'unique' => Rule::unique('mage_values', 'value')->ignore($baseValue->uuid(), 'uuid'),
         ];
         return $rules[$rule];
     }

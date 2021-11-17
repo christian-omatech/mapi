@@ -17,15 +17,10 @@ return [
         'structure_loader' => YamlStructureLoader::class,
         'router' => [
             [
-                'controller_namespace' => 'Omatech\FrontEnd\Infrastructure\Http\Controllers',
-                'segments' => ['{language}', '{niceUrl}', 'products', '{uuid}'],
-                'classes' => ['products'],
-                'translate' => false
-            ], [
-                'controller_namespace' => 'Omatech\FrontEnd\Infrastructure\Http\Controllers',
-                'segments' => ['{language}', '{niceUrl}', 'news', '{uuid}'],
-                'classes' => ['products'],
-                'translate' => false
+                'namespace' => '',
+                'uri' => '{language}/{niceUrl}/products/{uuid}',
+                'classes' => [ 'Home' ],
+                'translate' => true
             ],
         ]
     ],

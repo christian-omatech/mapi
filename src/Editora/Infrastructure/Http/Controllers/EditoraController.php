@@ -1,29 +1,37 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Omatech\Mapi\Editora\Infrastructure\Http\Controllers;
 
-use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Http\Request;
-use Omatech\Mapi\Editora\Domain\Route;
-use Omatech\Mapi\Editora\Domain\Router;
+use Illuminate\Routing\ControllerDispatcher;
 use Omatech\Mapi\Shared\Infrastructure\Http\Controllers\Controller;
-use function Lambdish\Phunctional\reduce;
+use Omatech\Mcore\Editora\Application\ExtractionLocator\ExtractionLocatorCommand;
 
 final class EditoraController extends Controller
 {
+    protected array $uris;
+    private Controller $controller;
+
+    public function __construct()
+    {
+        parent::__construct();
+        if (! app()->runningInConsole()) {
+            $extractorLocator = $this->queryBus->handle(new ExtractionLocatorCommand([
+                'languages' => config('mage.editora.languages'),
+                'router' => config('mage.editora.router'),
+                'niceUrl' => request()->route('niceUrl'),
+                'uri' => request()->route()->uri(),
+                'path' => request()->path(),
+            ]));
+            $this->controller = app()->make($extractorLocator[0]);
+            $this->uris = $extractorLocator[1];
+            $this->middleware($this->controller->middlewares());
+        }
+    }
+
     public function __invoke(Request $request)
     {
-        //find class by niceurl
-        $class = 'Products';
-        $router = new Router(config('mage.editora'));
-        $controller = app()->make($router->findController($request->route()->uri(), $class));
-        $request->route()->controller = $controller;
-        $request->route()->action['uses'] = $controller::class.'@__invoke';
-        $request->route()->action['controller'] = $controller::class;
-        $request->route()->computedMiddleware = array_merge(reduce(function(array $acc, array $middleware): array {
-            $acc[] = $middleware['middleware'];
-            return $acc;
-        }, $controller->getMiddleware(), []), $request->route()->computedMiddleware);
-        return app()->make(Kernel::class)->handle($request);
+        return (new ControllerDispatcher(app()))
+            ->dispatch($request->route(), $this->controller, '__invoke');
     }
 }

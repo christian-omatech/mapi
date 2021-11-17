@@ -19,7 +19,7 @@ class YamlStructureLoader implements StructureLoaderInterface
     public function load(string $classKey): array
     {
         $structure = $this->structureCache->get();
-        if (!$structure) {
+        if (! $structure) {
             $structure = Yaml::parseFile(config('mage.editora.structure_path'));
             $this->structureCache->put($structure);
         }

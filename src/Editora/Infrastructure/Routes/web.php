@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Omatech\Mapi\Editora\Domain\Router;
 use Omatech\Mapi\Editora\Infrastructure\Http\Controllers\EditoraController;
+use Omatech\Mcore\Editora\Domain\Router\Router;
 
-$router = new Router(config('mage.editora'));
-
-foreach($router->routes() as $route) {
-    Route::get($route->segments(), EditoraController::class);
+$router = Router::instance(config('mage.editora.router'), config('mage.editora.languages'));
+foreach ($router->routes() as $route) {
+    Route::get($route->uri(), EditoraController::class);
 }

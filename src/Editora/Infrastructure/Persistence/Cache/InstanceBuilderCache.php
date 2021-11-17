@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Omatech\Mapi\Editora\Infrastructure\Persistence\Cache;
 
 use Illuminate\Support\Facades\Cache;
