@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Omatech\Mapi\Shared\Infrastructure\Tactician\CommandBus;
 use Omatech\Mapi\Shared\Infrastructure\Tactician\QueryBus;
+use function Lambdish\Phunctional\reduce;
 
 class Controller extends BaseController
 {
@@ -21,9 +22,12 @@ class Controller extends BaseController
         $this->commandBus = new CommandBus();
         $this->queryBus = new QueryBus();
     }
-
-    public function middlewares(): array
+    
+    protected function middlewares(): array
     {
-        return $this->middleware;
+        return reduce(function($acc, $middleware) {
+            $acc[] = $middleware['middleware'];
+            return $acc;
+        }, $this->middleware);
     }
 }
