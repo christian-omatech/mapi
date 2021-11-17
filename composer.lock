@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d717642b88a259a0ebea2de975a0797",
+    "content-hash": "56ce943cb4541011765a1a03708f720c",
     "packages": [
         {
             "name": "brick/math",
@@ -1534,12 +1534,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/christian-omatech/mcore.git",
-                "reference": "4e6e2255465cb871d3677b8ce379a104863507bc"
+                "reference": "472ed37338821129db4b638b14cf4f731258afe8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/4e6e2255465cb871d3677b8ce379a104863507bc",
-                "reference": "4e6e2255465cb871d3677b8ce379a104863507bc",
+                "url": "https://api.github.com/repos/christian-omatech/mcore/zipball/472ed37338821129db4b638b14cf4f731258afe8",
+                "reference": "472ed37338821129db4b638b14cf4f731258afe8",
                 "shasum": ""
             },
             "require": {
@@ -1594,7 +1594,7 @@
                 "source": "https://github.com/christian-omatech/mcore/tree/router",
                 "issues": "https://github.com/christian-omatech/mcore/issues"
             },
-            "time": "2021-11-17T21:08:36+00:00"
+            "time": "2021-11-17T22:01:51+00:00"
         },
         {
             "name": "opis/closure",

@@ -21,4 +21,9 @@ class Controller extends BaseController
         $this->commandBus = new CommandBus();
         $this->queryBus = new QueryBus();
     }
+
+    public function middlewares(): array
+    {
+        return $this->middleware;
+    }
 }

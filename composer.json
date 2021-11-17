@@ -23,7 +23,7 @@
     "require-dev": {
         "orchestra/testbench": "^6.0",
         "roave/security-advisories": "dev-latest",
-        "infection/infection": "^0.25",
+        "infection/infection": "^0",
         "nunomaduro/phpinsights": "^2.0"
     },
     "repositories": [
