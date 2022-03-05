@@ -1,14 +1,17 @@
 version: '3.8'
 services:
   php:
+    container_name: mage_php
     environment:
-      - XDEBUG_MODE=coverage
+      - XDEBUG_MODE=develop,coverage
+    image: mage_php
     build:
       context: "."
       dockerfile: "php/Dockerfile"
       args:
         UID: ${UID}
         GID: ${GID}
+        PHP_VERSION: ${PHP_VERSION:-8.0}
     depends_on:
       mariadb:
         condition: service_healthy
@@ -17,25 +20,23 @@ services:
     volumes:
       - mariadb-socket:/var/run/mysqld
       - ../:/app
+      - ~/.config/composer/auth.json:/home/app/.composer/auth.json
+      - ~/.ssh/:/home/app/.ssh:ro
   mariadb:
-    container_name: mapi-mariadb
+    container_name: mage_mariadb
     environment:
-      - MARIADB_ROOT_PASSWORD=mapi
-      - MYSQL_DATABASE=mapi
+      - MARIADB_ROOT_PASSWORD=mage
+      - MYSQL_DATABASE=mage
+    image: mage_mariadb
     build:
       context: "."
       dockerfile: "mariadb/Dockerfile"
-    image: mapi_mariadb
     healthcheck:
-      test: "/usr/bin/mysql -uroot -pmapi -e 'SHOW DATABASES;'"
+      test: "/usr/bin/mysql -uroot -pmage -e 'SHOW DATABASES;'"
       timeout: 10s
       retries: 10
     ports:
-      - "3307:3306"
-    networks:
-      docker:
-        aliases:
-          - database.local
+      - "3306:3306"
     volumes:
       - mariadb:/var/lib/mysql
       - mariadb-socket:/var/run/mysqld

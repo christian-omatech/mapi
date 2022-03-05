@@ -2,18 +2,14 @@
 
 namespace Tests\Editora\Controllers\Database;
 
-use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Foundation\Testing\WithFaker;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\RelationDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
-use Tests\DatabaseTestCase;
+use Tests\Editora\EditoraTestCase;
 
-final class ExtractInstanceTest extends DatabaseTestCase
+final class ExtractInstanceTest extends EditoraTestCase
 {
-    use WithFaker;
-
     /** @test */
     public function extractParentRelations(): void
     {

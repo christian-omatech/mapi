@@ -16,13 +16,14 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/support": "^8.0",
+        "illuminate/support": "^9.2",
+        "illuminate/routing": "^v9.2",
         "league/tactician": "^1.1",
         "omatech/mcore": "dev-router"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0",
         "roave/security-advisories": "dev-latest",
+        "orchestra/testbench": "^7.0",
         "infection/infection": "^0",
         "nunomaduro/phpinsights": "^2.0"
     },
@@ -52,7 +53,13 @@
         "analyse": "vendor/bin/phpinsights analyse --verbose --config-path=rules.php --no-interaction --fix src"
     },
     "config": {
-        "sort-packages": true
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "laravel": {

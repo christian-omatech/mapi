@@ -1,17 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Editora\Database;
+namespace Tests\Editora\Controllers\Database;
 
-use Illuminate\Foundation\Testing\WithFaker;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
-use Tests\DatabaseTestCase;
+use Tests\Editora\EditoraTestCase;
 
-final class ReadInstanceTest extends DatabaseTestCase
+final class ReadInstanceTest extends EditoraTestCase
 {
-    use WithFaker;
-
     /** @test */
     public function readInstance(): void
     {

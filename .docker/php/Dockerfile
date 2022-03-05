@@ -1,4 +1,6 @@
-FROM php:8-cli-alpine
+ARG PHP_VERSION
+
+FROM php:${PHP_VERSION}-cli-alpine
 
 ARG UID
 ARG GID
@@ -16,12 +18,21 @@ RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql
 RUN docker-php-ext-enable xdebug pdo_mysql
 RUN apk del --purge deps
 
+RUN echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+ && echo "xdebug.start_with_request = 1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+ && echo "xdebug.discover_client_host = 1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 RUN addgroup -S -g ${GID} app \
-    && adduser -S -D -u ${UID} -s /sbin/nologin -h /home/app -G app app \
-    && chown -R app:app /home/app \
-    && chmod -R g+w /home/app
+ && adduser -S -D -u ${UID} -s /sbin/nologin -h /home/app -G app app \
+ && chown -R app:app /home/app \
+ && chmod -R g+w /home/app
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
+RUN mkdir -p /home/app/.composer \
+ && chmod -R g+w /home/app/.composer
+
 USER app
 WORKDIR /app
+
+EXPOSE 9003

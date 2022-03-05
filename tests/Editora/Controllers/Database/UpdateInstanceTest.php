@@ -2,17 +2,14 @@
 
 namespace Tests\Editora\Controllers\Database;
 
-use Illuminate\Foundation\Testing\WithFaker;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\AttributeDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\InstanceDAO;
 use Omatech\Mapi\Editora\Infrastructure\Persistence\Eloquent\Models\ValueDAO;
 use Omatech\Mcore\Editora\Domain\Instance\PublicationStatus;
-use Tests\DatabaseTestCase;
+use Tests\Editora\EditoraTestCase;
 
-final class UpdateInstanceTest extends DatabaseTestCase
+final class UpdateInstanceTest extends EditoraTestCase
 {
-    use WithFaker;
-
     /** @test */
     public function updateInstanceSuccessfully(): void
     {
